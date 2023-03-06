@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
+import { AnnouncementsComponent } from '../announcements/announcements.component';
+import { RulesComponent } from '../rules/rules.component';
 
 @Component({
   selector: 'app-home',
@@ -9,12 +11,16 @@ import { AuthenticationService } from '../services/authentication.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) { }
+  constructor(private authenticationService: AuthenticationService, private router: Router) { 
+    
+  }
 
   ngOnInit(): void {
     if(this.authenticationService.getSession() === ""){
       this.router.navigateByUrl('');
     }
+
+    
   }
 
   logout():void{
@@ -23,4 +29,8 @@ export class HomeComponent implements OnInit {
       this.router.navigateByUrl('');
     }
   }
+  
+  homepageData = "Home page";
+  
+
 }

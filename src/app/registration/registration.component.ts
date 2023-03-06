@@ -12,6 +12,10 @@ export class RegistrationComponent implements OnInit {
   constructor(private router: Router, private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
+    const session = this.authenticationService.getSession();
+    if(session !== ""){
+      this.router.navigateByUrl('home');
+    }
   }
 
   firstName:string = "";

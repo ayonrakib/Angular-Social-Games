@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
@@ -10,7 +9,7 @@ import { AuthenticationService } from '../services/authentication.service';
 })
 export class AuthenticationComponent implements OnInit {
 
-  constructor(private router: Router, private cookieService: CookieService, private authenticationService: AuthenticationService) { }
+  constructor(private router: Router, private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
     const authCookie = this.authenticationService.getSession();

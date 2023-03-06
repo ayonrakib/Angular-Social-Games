@@ -6,12 +6,18 @@ import { CookieService } from 'ngx-cookie-service';
 import { AppComponent } from './app.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
+import { NavbarComponent } from './commons/navbar/navbar.component';
+import { AnnouncementsComponent } from './announcements/announcements.component';
+import { RulesComponent } from './rules/rules.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthenticationComponent,
-    routingComponents
+    routingComponents,
+    NavbarComponent,
+    AnnouncementsComponent,
+    RulesComponent
   ],
   imports: [
     BrowserModule,
