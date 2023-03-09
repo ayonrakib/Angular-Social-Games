@@ -1,6 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { AuthenticationService } from '../services/authentication.service';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-announcements',
@@ -9,16 +7,9 @@ import { Router } from '@angular/router';
 })
 export class AnnouncementsComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) { }
+  constructor() { }
 
   ngOnInit(): void {
-  }
-
-  logout():void{
-    console.log("came to logout!");
-    if(this.authenticationService.deleteSession()){
-      this.router.navigateByUrl('');
-    }
   }
 
 }

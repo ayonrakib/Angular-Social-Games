@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AnnouncementsComponent } from 'src/app/announcements/announcements.component';
-import { RulesComponent } from 'src/app/rules/rules.component';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,22 +9,31 @@ import { RulesComponent } from 'src/app/rules/rules.component';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  @Input() homepageData:any;
-
-  components = [AnnouncementsComponent, RulesComponent];
-
-  sendDataToAnnouncement(index:number):void{
-    console.log("came in sendDataToAnnouncement method!");
-    this.homepageData = this.components[index];
+  goToHome():void{
+    this.router.navigateByUrl('');
   }
 
   showAnnouncements():void{
     this.router.navigateByUrl('announcements');
   }
-  
+
+  showRules():void{
+    this.router.navigateByUrl('rules');
+  }
+
+  showFixture():void{
+    this.router.navigateByUrl('fixture');
+  }
+
+  logout():void{
+    console.log("came to logout!");
+    if(this.authenticationService.deleteSession()){
+      this.router.navigateByUrl('');
+    }
+  }
 }

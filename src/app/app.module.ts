@@ -9,6 +9,7 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { NavbarComponent } from './commons/navbar/navbar.component';
 import { AnnouncementsComponent } from './announcements/announcements.component';
 import { RulesComponent } from './rules/rules.component';
+import { FixtureComponent } from './fixture/fixture.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { RulesComponent } from './rules/rules.component';
     routingComponents,
     NavbarComponent,
     AnnouncementsComponent,
-    RulesComponent
+    RulesComponent,
+    FixtureComponent
   ],
   imports: [
     BrowserModule,

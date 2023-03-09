@@ -4,12 +4,16 @@ import { HomeComponent } from './home/home.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { AnnouncementsComponent } from './announcements/announcements.component';
+import { RulesComponent } from './rules/rules.component';
+import { FixtureComponent } from './fixture/fixture.component';
 
 const routes: Routes = [
   { path: '', component: AuthenticationComponent },
   { path: 'register', component: RegistrationComponent},
   { path: 'home', component: HomeComponent },
-  { path: 'announcements', component: AnnouncementsComponent }
+  { path: 'announcements', component: AnnouncementsComponent },
+  { path: 'rules', component: RulesComponent },
+  { path: 'fixture', component: FixtureComponent }
 ];
 
 @NgModule({
@@ -18,4 +22,5 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 
-export const routingComponents = [HomeComponent, RegistrationComponent, AuthenticationComponent, AnnouncementsComponent];
+export const routingComponents = [HomeComponent, RegistrationComponent, AuthenticationComponent, 
+                                  AnnouncementsComponent, RulesComponent, FixtureComponent];

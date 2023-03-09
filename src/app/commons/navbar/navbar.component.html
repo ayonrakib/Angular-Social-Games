@@ -1,15 +1,15 @@
-<nav class="container navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-center" style="flex: 1;">
-  <div class="navbar-brand">Volleyball</div>
-  <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNavDropdown">
-    <ul class="navbar-nav">
+<nav class="container navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-center" style="flex: 1;">
+  <div class="navbar-brand" (click)="goToHome()">Volleyball</div>
+  <div class="collapse navbar-collapse navbar-dark bg-dark d-flex justify-content-end" id="navbarNavDropdown">
+    <ul class="navbar-nav dropdown-menu-dark">
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
           Menu
-        </a>
+        </button>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" (click)="showAnnouncements()" >Announcements</a>
-          <a class="dropdown-item" (click)="showAnnouncements()">Rules</a>
-          <a class="dropdown-item" >Fixture</a>
+          <a class="dropdown-item" (click)="showRules()">Rules</a>
+          <a class="dropdown-item" (click)="showFixture()">Fixture</a>
           <a class="dropdown-item">Players</a>
           <a class="dropdown-item" >Captains</a>
           <a class="dropdown-item" >Teams</a>
@@ -17,5 +17,8 @@
         </div>
       </li>
     </ul>
+    <div (click)="logout()">
+      Logout
+    </div>
   </div>
 </nav>
