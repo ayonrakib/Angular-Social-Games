@@ -10,6 +10,8 @@ import { NavbarComponent } from './commons/navbar/navbar.component';
 import { AnnouncementsComponent } from './announcements/announcements.component';
 import { RulesComponent } from './rules/rules.component';
 import { FixtureComponent } from './fixture/fixture.component';
+import { PollComponent } from './poll/poll.component';
+import { CreatePollComponent } from './create-poll/create-poll.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { FixtureComponent } from './fixture/fixture.component';
     NavbarComponent,
     AnnouncementsComponent,
     RulesComponent,
-    FixtureComponent
+    FixtureComponent,
+    PollComponent,
+    CreatePollComponent
   ],
   imports: [
     BrowserModule,
