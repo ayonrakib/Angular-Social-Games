@@ -1,0 +1,73 @@
+<app-navbar></app-navbar>
+<div style="height: 100vh;" class="d-flex justify-content-center align-items-center">
+    <div style="width: 50%;">
+        <div class="row" style=" margin-bottom: 10px;">
+            <div style="display: flex; flex-direction: row;">
+                <div style="margin-right: 10px; display: flex; align-items: center;" class="col-sm-5">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6"></div>
+                            <div class="col-sm-6">
+                                Date:
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="date" id="date" class="form-control" placeholder="Date" [(ngModel)]="date">
+                <span class="input-group-text" id="date"><i class="fa-solid fa-calendar-days datepicker"></i></span>
+            </div>
+        </div>
+        <div class="row" style=" margin-bottom: 10px;">
+            <div style="display: flex; flex-direction: row;">
+                <div style=" margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6"></div>
+                            <div class="col-sm-6">
+                                Time:
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                <input type="time" class="form-control" placeholder="Time" [(ngModel)]="time">
+                <span class="input-group-text" id="time"><i class="fa fa-clock"></i></span>
+            </div>
+        </div>
+        <div class="row" style=" margin-bottom: 10px;">
+            <div style="display: flex; flex-direction: row;">
+                <div style="margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-6"></div>
+                            <div class="col-sm-6">
+                                Location:
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <select [(ngModel)]='location' class="form-control">
+                    <option value="Cedar Park Recreation Center">Cedar Park Recreation Center</option>
+                    <option value="Round Rock Sports Center" >Round Rock Sports Center</option>
+                    <option value="Austin Sports Center (Toro Grande)">Austin Sports Center (Toro Grande)</option>
+                    <option value="Austin Sports Center (South)">Austin Sports Center (South)</option>
+                    <option value="Brushy Creek Commuity Center">Brushy Creek Commuity Center</option>
+                </select>
+                <span class="input-group-text" id="location"><i class="fa fa-location"></i></span>
+            </div>
+        </div>
+        <br>
+        <div class="row" style=" margin-bottom: 10px;">
+            <div class="col-sm-4"></div>
+            <div class="d-flex flex-row justify-content-between col-sm-4">
+                <button type="button" class="btn btn-primary" (click)="createPoll()">Create</button>
+                <button routerLink="/" type="button" class="btn btn-primary">Go Back</button>
+            </div>
+    </div>
+    </div>
+
+    
+</div>
+
+date is {{date}}
+time is {{time}}
+location us {{location}}

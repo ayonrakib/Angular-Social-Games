@@ -1,0 +1,31 @@
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-sm-6">
+            <div class="row" style=" margin-bottom: 10px;">
+                <div style="display: flex; flex-direction: row;">
+                    <div style="margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">Email: </div>
+                    <input class="form-control" type="text" [(ngModel)]="email">
+                </div>
+            </div>
+            <div class="row" style=" margin-bottom: 10px;">
+                <div style="display: flex; flex-direction: row;">
+                    <div style="margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">Password: </div>
+                    <input class="form-control " type="password" [(ngModel)]="password">
+                </div>
+            </div>
+            <br>
+            <div class="row" style=" margin-bottom: 10px;">
+                <div style="display: flex; flex-direction: row; justify-content: space-around;">
+                    <div class="col-sm-4 d-flex justify-content-center">
+                        <button type="button" class="btn btn-primary" (click)="login()">Login</button>
+                    </div>
+                    <div class="col-sm-4 d-flex justify-content-center">
+                        <button routerLink="/register" type="button" class="btn btn-primary">Register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
