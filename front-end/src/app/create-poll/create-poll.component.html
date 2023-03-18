@@ -13,7 +13,7 @@
                         </div>
                     </div>
                 </div>
-                <input type="date" id="date" class="form-control" placeholder="Date" [(ngModel)]="date">
+                <input type="date" id="date" class="form-control" placeholder="Date" [(ngModel)]="pollDate">
                 <span class="input-group-text" id="date"><i class="fa-solid fa-calendar-days datepicker"></i></span>
             </div>
         </div>
@@ -29,7 +29,7 @@
                         </div>
                     </div> 
                 </div>
-                <input type="time" class="form-control" placeholder="Time" [(ngModel)]="time">
+                <input type="time" class="form-control" placeholder="Time" [(ngModel)]="pollTime">
                 <span class="input-group-text" id="time"><i class="fa fa-clock"></i></span>
             </div>
         </div>
@@ -45,7 +45,7 @@
                         </div>
                     </div>
                 </div>
-                <select [(ngModel)]='location' class="form-control">
+                <select [(ngModel)]='pollLocation' class="form-control">
                     <option value="Cedar Park Recreation Center">Cedar Park Recreation Center</option>
                     <option value="Round Rock Sports Center" >Round Rock Sports Center</option>
                     <option value="Austin Sports Center (Toro Grande)">Austin Sports Center (Toro Grande)</option>
@@ -68,6 +68,6 @@
     
 </div>
 
-date is {{date}}
-time is {{time}}
-location us {{location}}
+date is {{pollDate}}
+time is {{pollTime}}
+location us {{pollLocation}}

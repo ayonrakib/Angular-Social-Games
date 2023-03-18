@@ -15,4 +15,17 @@ router.get('/get-polls', async (req:any, res:any) => {
     res.send(polls);
 })
 
+router.post('/create-poll', async (req:any, res:any) => {
+    console.log("reached /create-poll url!");
+    console.log("req is: ",req.body);
+    let pollDate = req.body.pollDate;
+    let pollTime = req.body.pollTime;
+    let pollLocation = req.body.pollLocation;
+    if(pollDate != "" && pollTime != "" && pollLocation != ""){
+        let poll = await pollController.createPoll(pollDate, pollTime, pollLocation);
+        res.send(true);
+    }
+
+})
+
 module.exports = router;

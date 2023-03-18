@@ -10,6 +10,12 @@ class PollController{
         const polls = await PollModel.findAll();
         return polls;
     }
+
+    async createPoll(pollDate:string, pollTime:string, pollLocation:string):Promise<boolean>{
+        const poll = await PollModel.create({pollDate: pollDate, pollTime: pollTime, pollLocation: pollLocation});
+        console.log("poll object in createPoll method is poll controller: ",poll);
+        return poll.dataValues.isNewRecord === false ? true : false ;
+    }
 }
 
 const pollController = new PollController();
