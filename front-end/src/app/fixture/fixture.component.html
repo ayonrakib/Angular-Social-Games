@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <div style="margin: 50px;">
-    <li *ngFor="let poll of polls">
+    <li *ngFor="let poll of polls" style="list-style-type: none; margin-bottom: 30px;">
         <app-poll
             [poll] = "poll"
         >

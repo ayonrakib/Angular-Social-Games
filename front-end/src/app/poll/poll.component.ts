@@ -10,21 +10,18 @@ export class PollComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    // console.log("pollDate in PollComponent is: ",this.pollDate);
-    // console.log("pollTime in PollComponent is: ",this.pollTime);
-    // console.log("pollLocation in PollComponent is: ",this.pollLocation);
     console.log("poll in PollComponent is: ",this.poll);
     let date = new Date(this.poll.pollDate);
-    console.log("date in PollComponent: ",date);
-    console.log("day in PollComponent: ",date.getDate())
     this.pollDate = date.getDate();
-    this.pollDay = this.days[date.getDay()];
-    console.log("day: ",this.pollDay)
     this.pollMonth = this.months[date.getMonth()];
     this.pollYear = date.getFullYear();
     this.pollLocation = this.locations[this.poll.pollLocation];
     this.pollMap = this.maps[this.poll.pollLocation];
     this.pollImage = this.images[this.poll.pollLocation];
+    this.timeStamp = this.poll.pollTime.split(":");
+    console.log("timeStamp: ",this.timeStamp);
+    this.pollTime = Number(this.timeStamp[0])  > Number("12") ? (24 - Number(this.timeStamp[0])).toString() + ":" + this.timeStamp[1] + " PM"
+                                                              : (Number(this.timeStamp[0])).toString() + ":" + this.timeStamp[1] + " AM";
   }
 
   pollDate!: number;
@@ -34,6 +31,11 @@ export class PollComponent implements OnInit {
   pollLocation!: string;
   pollMap!: string;
   pollImage!: string;
+  hour!: string;
+  minute!: string;
+  second!: string;
+  pollTime!: string;
+  timeStamp!: any[];
   days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
   locations = [
