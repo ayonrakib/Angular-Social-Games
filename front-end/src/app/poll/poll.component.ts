@@ -22,8 +22,14 @@ export class PollComponent implements OnInit {
     console.log("timeStamp: ",this.timeStamp);
     this.pollTime = Number(this.timeStamp[0])  > Number("12") ? (24 - Number(this.timeStamp[0])).toString() + ":" + this.timeStamp[1] + " PM"
                                                               : (Number(this.timeStamp[0])).toString() + ":" + this.timeStamp[1] + " AM";
+    this.firstButtonRandomId = this.firstButtonId();
+    this.secondButtonRandomId = this.secondButtonId();
+    this.thirdButtonRandomId = this.thirdButtonId();
+    this.currentPollName = (this.pollName).toString();
   }
-
+  firstButtonRandomId!:string;
+  secondButtonRandomId!:string;
+  thirdButtonRandomId!:string;
   pollDate!: number;
   pollDay!: string;
   pollMonth!: string;
@@ -61,6 +67,13 @@ export class PollComponent implements OnInit {
 
   @Input()
   poll: any;
-
-
+  @Input()
+  firstButtonId!: () => string;
+  @Input()
+  secondButtonId!: () => string;  
+  @Input()
+  thirdButtonId!: () => string;
+  @Input()
+  pollName!: number;
+  currentPollName!: string;
 }

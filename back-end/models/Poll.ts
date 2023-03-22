@@ -28,3 +28,4 @@ const Poll = sequelizeForPoll.define('polls', {
 })
 
 module.exports = Poll;
+export {};

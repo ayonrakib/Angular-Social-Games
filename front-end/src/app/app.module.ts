@@ -15,6 +15,7 @@ import { CreatePollComponent } from './create-poll/create-poll.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
 import { DateValueAccessor, DateValueAccessorModule, LocalDateValueAccessor, LocalDateValueAccessorModule } from 'angular-date-value-accessor';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { DateValueAccessor, DateValueAccessorModule, LocalDateValueAccessor, Loc
     RulesComponent,
     FixtureComponent,
     PollComponent,
-    CreatePollComponent
+    CreatePollComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

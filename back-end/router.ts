@@ -1,7 +1,9 @@
 const expresAapp = require('express');
 const router = expresAapp.Router();
+const crypto = require("crypto-js");
 // const pollController = require("./controller/PollController");
 import pollController from "./controller/PollController";
+import userController from "./controller/UserController";
 
 router.get('/', (req:any, res:any) => {
     console.log("reached / url!");
@@ -25,7 +27,39 @@ router.post('/create-poll', async (req:any, res:any) => {
         let poll = await pollController.createPoll(pollDate, pollTime, pollLocation);
         res.send(true);
     }
+})
+
+router.get('/get-users', async (req:any, res:any) => {
+    console.log("reached /get-users url!");
+    const users = await userController.getUsers();
+    res.send(users);
+})
+
+router.post('/create-user', async (req:any, res:any) => {
+    console.log("reached /create-user url!");
+    console.log("req is: ",req.body);
+    let firstName = req.body.firstName;
+    let lastName = req.body.lastName;
+    let email = req.body.email;
+    let password = req.body.password;
+    let salt = getRandomizedString();
+    let session = getRandomizedString();
+    let hashedPassword = hashPassword(password, salt);
+    console.log("hashed pass is: ",hashedPassword);
+    if(firstName != "" && lastName != "" && email != "" && password !== "" && salt != "" && session != ""){
+        let user = await userController.createUser(firstName, lastName, email, hashedPassword, salt, session);
+        // return user.dataValues.isNewRecord === false ? true : false;
+        res.send(user);
+    }
 
 })
+
+function getRandomizedString():string{
+    return Math.random().toString(36).substring(2,7);
+}
+
+function hashPassword(password:string, salt:string):string{
+    return crypto.AES.encrypt(password,salt).toString();
+}
 
 module.exports = router;
