@@ -1,3 +1,4 @@
+declare var require: any
 const expresAapp = require('express');
 const router = expresAapp.Router();
 const crypto = require("crypto-js");
@@ -35,6 +36,14 @@ router.get('/get-users', async (req:any, res:any) => {
     res.send(users);
 })
 
+router.post('/get-user', async (req:any, res:any) => {
+    console.log("reached /get-user url!");
+    console.log("req is: ",req.body);
+    const attribute = Number.isInteger(req.body.id) ? req.body.id : req.body.email;
+    const user = await userController.getUser(attribute);
+    res.send(user);
+})
+
 router.post('/create-user', async (req:any, res:any) => {
     console.log("reached /create-user url!");
     console.log("req is: ",req.body);
@@ -48,10 +57,17 @@ router.post('/create-user', async (req:any, res:any) => {
     console.log("hashed pass is: ",hashedPassword);
     if(firstName != "" && lastName != "" && email != "" && password !== "" && salt != "" && session != ""){
         let user = await userController.createUser(firstName, lastName, email, hashedPassword, salt, session);
-        // return user.dataValues.isNewRecord === false ? true : false;
         res.send(user);
     }
+})
 
+router.post('/delete-user', async (req:any, res:any) => {
+    console.log("reached /delete-user url!");
+    console.log("req is: ",req.body);
+    let email = req.body.email;
+    if(email != ""){
+        
+    }
 })
 
 function getRandomizedString():string{

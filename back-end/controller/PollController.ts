@@ -18,8 +18,4 @@ class PollController{
     }
 }
 
-const pollController = new PollController();
-
-// pollController.getPolls().then(response => console.log(response));
-
-export default pollController;
+export default new PollController();
