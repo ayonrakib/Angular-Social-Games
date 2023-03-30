@@ -8,7 +8,8 @@ const sequelize = new Sequelize(
     'password',
     {
         host: '127.0.0.1',
-        dialect: 'mariadb'
+        dialect: 'mariadb',
+        sync: true
     }
 )
 

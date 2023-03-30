@@ -1,5 +1,6 @@
 const UserModel = require("../models/User");
 const userSequelize = require("../mariadb");
+import ApiError from "../utils/exception";
 
 class UserController{
     constructor(){
@@ -11,7 +12,7 @@ class UserController{
         return users;
     }
 
-    async getUser(attribute: number| string){
+    async getUser(attribute: number| string):Promise<ApiError | typeof UserModel>{
         console.log("parameter: ",attribute)
         if(Number.isInteger(attribute)){
             const user = await UserModel.findAll({
@@ -28,7 +29,16 @@ class UserController{
                     email  : attribute
                 }
             });
-            return user[0].dataValues;
+            console.log("user with email: ",user)
+            if(user.length === 0){
+                const errorResponse = new ApiError(200,"user not found!");
+                console.log("error response: ",errorResponse)
+                return new ApiError(200,"user not found!");
+            }
+            else{
+                return user[0].dataValues;
+            }
+
         }
     }
 

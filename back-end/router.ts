@@ -2,6 +2,11 @@ declare var require: any
 const expresAapp = require('express');
 const router = expresAapp.Router();
 const crypto = require("crypto-js");
+// import * as fs from 'fs';
+const fs = require('fs');
+// import * as path from 'path';
+// import { open } from 'fs/promises';
+
 // const pollController = require("./controller/PollController");
 import pollController from "./controller/PollController";
 import userController from "./controller/UserController";
@@ -34,6 +39,16 @@ router.get('/get-users', async (req:any, res:any) => {
     console.log("reached /get-users url!");
     const users = await userController.getUsers();
     res.send(users);
+})
+
+router.get('/read-file', async(req:any, res:any) => {
+    fs.readFile('D:/Coding/angular/login-register/back-end/db-seed/users.csv', 'utf8', (err:any, data:any) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        res.send(data)
+      });
 })
 
 router.post('/get-user', async (req:any, res:any) => {

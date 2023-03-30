@@ -12,6 +12,7 @@ export class PollComponent implements OnInit {
   ngOnInit(): void {
     console.log("poll in PollComponent is: ",this.poll);
     let date = new Date(this.poll.pollDate);
+    console.log("date in poll component: ",date)
     this.pollDate = date.getDate();
     this.pollMonth = this.months[date.getMonth()];
     this.pollYear = date.getFullYear();
