@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { PollService } from '../../../services/poll.service';
+import { VoteService } from '../../../services/vote.service';
 
 @Component({
   selector: 'app-poll',
@@ -7,7 +9,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PollComponent implements OnInit {
 
-  constructor() { }
+  constructor(private pollService: PollService, private voteService: VoteService) { }
 
   ngOnInit(): void {
     console.log("poll in PollComponent is: ",this.poll);
@@ -19,18 +21,25 @@ export class PollComponent implements OnInit {
     this.pollLocation = this.locations[this.poll.pollLocation];
     this.pollMap = this.maps[this.poll.pollLocation];
     this.pollImage = this.images[this.poll.pollLocation];
+    this.pollId = (this.poll.id).toString();
     this.timeStamp = this.poll.pollTime.split(":");
-    console.log("timeStamp: ",this.timeStamp);
+    console.log("pollId: ",this.pollId);
     this.pollTime = Number(this.timeStamp[0])  > Number("12") ? (24 - Number(this.timeStamp[0])).toString() + ":" + this.timeStamp[1] + " PM"
                                                               : (Number(this.timeStamp[0])).toString() + ":" + this.timeStamp[1] + " AM";
-    this.firstButtonRandomId = this.firstButtonId();
-    this.secondButtonRandomId = this.secondButtonId();
-    this.thirdButtonRandomId = this.thirdButtonId();
+    this.firstButtonId = this.pollId + "-" + "yes";
+    this.secondButtonId = this.pollId + "-" + "no";
+    this.thirdButtonId = this.pollId + "-" + "maybe";
     this.currentPollName = (this.pollName).toString();
+
+    const votes = this.voteService.getVotes();
+    console.log("votes in poll component: ",votes);
+    votes.then(response => {
+      console.log("resolved votes in poll component: ",response.data.data.data)
+      this.yesVoters = response.data.data.data.yesVoters;
+      this.noVoters = response.data.data.data.noVoters;
+      this.maybeVoters = response.data.data.data.maybeVoters;
+    })
   }
-  firstButtonRandomId!:string;
-  secondButtonRandomId!:string;
-  thirdButtonRandomId!:string;
   pollDate!: number;
   pollDay!: string;
   pollMonth!: string;
@@ -38,6 +47,7 @@ export class PollComponent implements OnInit {
   pollLocation!: string;
   pollMap!: string;
   pollImage!: string;
+  pollId!: number;
   hour!: string;
   minute!: string;
   second!: string;
@@ -68,13 +78,29 @@ export class PollComponent implements OnInit {
 
   @Input()
   poll: any;
-  @Input()
-  firstButtonId!: () => string;
-  @Input()
-  secondButtonId!: () => string;  
-  @Input()
-  thirdButtonId!: () => string;
+  firstButtonId!: string;
+  secondButtonId!: string;  
+  thirdButtonId!: string;
   @Input()
   pollName!: number;
   currentPollName!: string;
+
+  async handleClick(this:any, currentEvent:any):Promise<void>{
+    console.log("the component that was clicked: ",this);
+    console.log("the poll that was clicked: ",this.pollId);
+    console.log("currentEvent: ",currentEvent);
+    console.log("currentEvent.target: ",currentEvent.target);
+    console.log("currentEvent.target.type: ",currentEvent.target.type);
+    console.log("currentEvent.target.value: ",currentEvent.target.value);
+    let isVoteCast = await this.pollService.castVote(this.pollId, currentEvent.target.value);
+    console.log("is vote cast: ",isVoteCast);
+  }
+
+  getButtonStyle():string{
+    return "background: #f4f4f4; border: 1px solid #dcdcdc"
+  }
+
+  yesVoters!: number;
+  noVoters!: number;
+  maybeVoters!: number;
 }

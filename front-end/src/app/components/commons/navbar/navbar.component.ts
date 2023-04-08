@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { CreatePollComponent } from 'src/app/create-poll/create-poll.component';
+import { CreatePollComponent } from 'src/app/components/features/create-poll/create-poll.component';
 
 @Component({
   selector: 'app-navbar',
@@ -36,7 +36,7 @@ export class NavbarComponent implements OnInit {
   }
 
   createPlayer():void{
-
+    this.router.navigateByUrl('create-player');
   }
 
   logout():void{

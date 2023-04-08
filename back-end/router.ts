@@ -2,14 +2,13 @@ declare var require: any
 const expresAapp = require('express');
 const router = expresAapp.Router();
 const crypto = require("crypto-js");
-// import * as fs from 'fs';
 const fs = require('fs');
-// import * as path from 'path';
-// import { open } from 'fs/promises';
-
-// const pollController = require("./controller/PollController");
+import Response from "./utils/rest";
+import ApiError from "./utils/exception";
 import pollController from "./controller/PollController";
 import userController from "./controller/UserController";
+import voteTableController from "./controller/VoteTableController";
+
 
 router.get('/', (req:any, res:any) => {
     console.log("reached / url!");
@@ -83,6 +82,40 @@ router.post('/delete-user', async (req:any, res:any) => {
     if(email != ""){
         
     }
+})
+
+router.post('/update-password', async (req:any, res:any) => {
+    console.log("reached /update-password url!");
+    console.log("req is: ",req.body);
+    let email = req.body.email;
+    if(email != ""){
+        const isPasswordUpdated = await userController.updatePassword(email, "password");
+        console.log("is password updated: ",isPasswordUpdated);
+        res.send(isPasswordUpdated)
+    }
+})
+
+router.post('/cast-vote', async (req:any, res:any) => {
+    console.log("came in cast vote url.");
+    console.log("req is: ",req.body);
+    const isVoteCast = await voteTableController.castVote(req.body);
+    const response = new Response(true, null);
+    res.send(response);
+})
+
+router.get('/get-votes', async (req:any, res:any) => {
+    console.log("came in get votes url!");
+    const votes = await voteTableController.getVotes();
+    const response = new Response(votes, null);
+    res.send(response);
+})
+
+router.post('/login', async (req:any, res:any) => {
+    console.log("came to login url!");
+    let email = req.body.email;
+    let password = req.body.password;
+    const loginResponse = await userController.getUser(email);
+    
 })
 
 function getRandomizedString():string{

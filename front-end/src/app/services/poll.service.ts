@@ -20,7 +20,15 @@ export class PollService {
       pollTime: pollTime,
       pollLocation: pollLocation
     })
-
     return isPollCreated.data;
+  }
+
+  async castVote(pollId:string, voteType:string):Promise<boolean>{
+    const isVoteCast = await axios.post("http://localhost:3000/cast-vote", {
+      pollId: pollId,
+      voteType: voteType
+    });
+    console.log("cast vote response from back end: ",isVoteCast.data);
+    return true;
   }
 }

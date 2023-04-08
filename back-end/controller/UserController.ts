@@ -1,6 +1,9 @@
 const UserModel = require("../models/User");
 const userSequelize = require("../mariadb");
 import ApiError from "../utils/exception";
+import Response from "../utils/rest";
+const crypto = require("crypto-js");
+import faker from 'faker';
 
 class UserController{
     constructor(){
@@ -12,7 +15,7 @@ class UserController{
         return users;
     }
 
-    async getUser(attribute: number| string):Promise<ApiError | typeof UserModel>{
+    async getUser(attribute: number | string):Promise<ApiError | typeof UserModel>{
         console.log("parameter: ",attribute)
         if(Number.isInteger(attribute)){
             const user = await UserModel.findAll({
@@ -20,8 +23,9 @@ class UserController{
                     id: attribute
                 }
             });
-            console.log("user found with email: ",user[0].dataValues);
-            return user[0].dataValues;
+            console.log("user found with id: ",user[0].dataValues);
+            const response = new Response(user[0].dataValues, null);
+            return response;
         }
         else{
             const user = await UserModel.findAll({
@@ -36,9 +40,9 @@ class UserController{
                 return new ApiError(200,"user not found!");
             }
             else{
-                return user[0].dataValues;
+                const response = new Response(user[0].dataValues, null);
+                return response;
             }
-
         }
     }
 
@@ -68,6 +72,25 @@ class UserController{
         catch(error){
             return true;
         }
+    }
+
+    async updatePassword(email:string, password:string):Promise<Response>{
+        console.log("came in update password with email: ",email);
+        try {
+            const user = await UserModel.findOne({ where: { email : email } });
+            console.log("user with email in update password: ",user);
+            user.password = this.hashPassword(password, faker.random.alphaNumeric(10));
+            await user.save();
+            return new Response(true, null);
+        } catch (error) {
+            console.error(error);
+            const errorUpdatingPassword = new ApiError(200, "Failed to updated password!");
+            return new Response(null, errorUpdatingPassword);
+        }
+    }
+
+    hashPassword(password:string, salt:string):string{
+        return crypto.AES.encrypt(password,salt).toString();
     }
 }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PollComponent } from '../poll/poll.component';
-import { PollService } from '../poll.service';
+import { PollService } from '../../../services/poll.service';
 
 @Component({
   selector: 'app-fixture',
@@ -16,7 +16,7 @@ export class FixtureComponent implements OnInit {
   ngOnInit(): void {
     let pollsPromise = this.pollService.getPolls();
     pollsPromise.then(polls => {
-      console.log("polls in ngOnInit in PollComponent is: ",polls)
+      console.log("polls in ngOnInit in fixture component is: ",polls)
       this.polls = polls;
     })
   }

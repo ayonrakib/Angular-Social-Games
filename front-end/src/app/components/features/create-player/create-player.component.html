@@ -1,0 +1,44 @@
+<app-navbar></app-navbar>
+<div style="height: 100vh;" class="d-flex justify-content-center align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-sm-6">
+              <div class="row" style=" margin-bottom: 10px;">
+                  <div style="display: flex; flex-direction: row;">
+                      <div style="margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">First Name: </div>
+                      <input class="form-control " type="text" [(ngModel)]="firstName">
+                  </div>
+              </div>
+              <div class="row" style=" margin-bottom: 10px;">
+                  <div style="display: flex; flex-direction: row;">
+                      <div style="margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">Last Name: </div>
+                      <input class="form-control " type="text" [(ngModel)]="lastName">
+                  </div>
+              </div>
+              <div class="row" style=" margin-bottom: 10px;">
+                  <div style="display: flex; flex-direction: row;">
+                      <div style=" margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">Email: </div>
+                      <input type="file" class="form-control" onchange="console.log(event.target.files)">
+                  </div>
+              </div>
+              <div class="row" style=" margin-bottom: 10px;">
+                  <div style="display: flex; flex-direction: row;">
+                      <div style="margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">Password: </div>
+                      <input class="form-control "type="password" [(ngModel)]="password">
+                  </div>
+              </div>
+              <br>
+              <div class="row" style=" margin-bottom: 10px;">
+                  <div style="display: flex; flex-direction: row; justify-content: space-around;">
+                      <div class="col-sm-4 d-flex justify-content-center">
+                          <button type="button" class="btn btn-primary">Register</button>
+                      </div>
+                      <div class="col-sm-4 d-flex justify-content-center">
+                          <button routerLink="/" type="button" class="btn btn-primary">Go Back</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+</div>

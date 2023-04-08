@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PollService } from '../poll.service';
-import { ModalComponent } from '../modal/modal.component';
+import { PollService } from '../../../services/poll.service';
+import { ModalComponent } from '../../commons/modal/modal.component';
 
 @Component({
   selector: 'app-create-poll',
