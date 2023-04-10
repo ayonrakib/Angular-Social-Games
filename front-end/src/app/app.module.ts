@@ -13,7 +13,12 @@ import { PollComponent } from './components/features/poll/poll.component';
 import { CreatePollComponent } from './components/features/create-poll/create-poll.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
-import { DateValueAccessor, DateValueAccessorModule, LocalDateValueAccessor, LocalDateValueAccessorModule } from 'angular-date-value-accessor';
+import {
+  DateValueAccessor,
+  DateValueAccessorModule,
+  LocalDateValueAccessor,
+  LocalDateValueAccessorModule,
+} from 'angular-date-value-accessor';
 import { ModalComponent } from './components/commons/modal/modal.component';
 import { CreatePlayerComponent } from './components/features/create-player/create-player.component';
 
@@ -29,7 +34,7 @@ import { CreatePlayerComponent } from './components/features/create-player/creat
     PollComponent,
     CreatePollComponent,
     ModalComponent,
-    CreatePlayerComponent
+    CreatePlayerComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,9 +45,9 @@ import { CreatePlayerComponent } from './components/features/create-player/creat
     DateValueAccessor,
     DateValueAccessorModule,
     LocalDateValueAccessor,
-    LocalDateValueAccessorModule
+    LocalDateValueAccessorModule,
   ],
   providers: [CookieService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

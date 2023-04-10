@@ -5,25 +5,25 @@
             <div class="row" style=" margin-bottom: 10px;">
                 <div style="display: flex; flex-direction: row;">
                     <div style="margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">First Name: </div>
-                    <input class="form-control " type="text" [(ngModel)]="firstName">
+                    <input class="form-control " type="text" [(ngModel)]="firstName" label="firstName" placeholder="first name" required/>
                 </div>
             </div>
             <div class="row" style=" margin-bottom: 10px;">
                 <div style="display: flex; flex-direction: row;">
                     <div style="margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">Last Name: </div>
-                    <input class="form-control " type="text" [(ngModel)]="lastName">
+                    <input class="form-control " type="text" [(ngModel)]="lastName" label="lastName" placeholder="last name" required/>
                 </div>
             </div>
             <div class="row" style=" margin-bottom: 10px;">
                 <div style="display: flex; flex-direction: row;">
                     <div style=" margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">Email: </div>
-                    <input class="form-control " type="text" [(ngModel)]="email">
+                    <input class="form-control " type="text" [(ngModel)]="email" label="email" placeholder="email" required/>
                 </div>
             </div>
             <div class="row" style=" margin-bottom: 10px;">
                 <div style="display: flex; flex-direction: row;">
                     <div style="margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">Password: </div>
-                    <input class="form-control "type="password" [(ngModel)]="password">
+                    <input class="form-control "type="password" [(ngModel)]="password" label="password" placeholder="password" required/>
                 </div>
             </div>
             <br>
@@ -42,3 +42,7 @@
   </div>
 </div>
 
+<app-modal
+    [modalBody] = "modalBody"
+    [modalTitle] = "modalTitle"
+>

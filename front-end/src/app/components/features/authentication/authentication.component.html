@@ -5,13 +5,13 @@
             <div class="row" style=" margin-bottom: 10px;">
                 <div style="display: flex; flex-direction: row;">
                     <div style="margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">Email: </div>
-                    <input class="form-control" type="text" [(ngModel)]="email">
+                    <input class="form-control" type="text" [(ngModel)]="email" placeholder="email" aria-label="email">
                 </div>
             </div>
             <div class="row" style=" margin-bottom: 10px;">
                 <div style="display: flex; flex-direction: row;">
                     <div style="margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">Password: </div>
-                    <input class="form-control " type="password" [(ngModel)]="password">
+                    <input class="form-control " type="password" [(ngModel)]="password" placeholder="password" aria-label="password">
                 </div>
             </div>
             <br>
@@ -29,3 +29,8 @@
       </div>
     </div>
   </div>
+
+<app-modal
+    [modalBody] = "modalBody"
+    [modalTitle] = "modalTitle"
+>
