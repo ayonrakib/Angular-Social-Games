@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../services/authentication.service';
 import CallModal from 'src/app/utils/CallModal';
+import axios from 'axios';
 
 @Component({
   selector: 'app-authentication',
@@ -27,7 +28,7 @@ export class AuthenticationComponent implements OnInit {
   modalBody!: string;
   modalTitle!: string;
 
-  login(): void {
+  async login(): Promise<void> {
     console.log(`email is: ${this.email} and pass is: ${this.password}`);
     if (this.email === '' || this.password === '') {
       if (this.email === '' && this.password == '') {
@@ -45,13 +46,27 @@ export class AuthenticationComponent implements OnInit {
       }
     } else {
       if (this.email === 'a' && this.password === 's') {
-        this.authenticationService.setSession();
+        // this.authenticationService.setSession();
         this.router.navigateByUrl('home');
       } else {
-        this.modalBody = 'Wrong credentials! Please enter again!';
-        this.modalTitle = 'Failed!';
-        this.callModal.callModal(this.modalBody, this.modalTitle);
+        const loginResponse = await this.authenticationService.login(
+          this.email,
+          this.password
+        );
+        console.log('login repsonse: ', loginResponse);
+        if (loginResponse.data.data === null) {
+          console.log('came inside user not found in login component!');
+          this.modalBody = loginResponse.data.error.errorMessage;
+          this.modalTitle = loginResponse.data.error.errorCode + ' error!';
+          this.callModal.callModal(this.modalBody, this.modalTitle);
+        }
       }
+
+      // else {
+      //   this.modalBody = 'Wrong credentials! Please enter again!';
+      //   this.modalTitle = 'Failed!';
+      //   this.callModal.callModal(this.modalBody, this.modalTitle);
+      // }
     }
   }
 }

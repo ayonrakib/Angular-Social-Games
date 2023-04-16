@@ -44,28 +44,22 @@ export class RegistrationComponent implements OnInit {
         this.callModal.callModal(this.modalBody, this.modalTitle);
       }
     } else {
-      const userFoundResponse = await axios.post(
-        'http://localhost:3000/get-user',
+      const createdUserResponse = await axios.post(
+        'http://localhost:3000/register',
         {
+          firstName: this.firstName,
+          lastName: this.lastName,
           email: this.email,
+          password: this.password,
         }
       );
-      console.log('user found with email rakib: ', userFoundResponse);
-      if (userFoundResponse.data.error === null) {
+      console.log('createdUserResponse in register: ', createdUserResponse);
+      if (createdUserResponse.data.data === null) {
         this.modalBody = 'Account exists! Please use another email!';
         this.modalTitle = 'Error!';
         this.callModal.callModal(this.modalBody, this.modalTitle);
       } else {
-        const createdUserResponse = await axios.post(
-          'http://localhost:3000/create-user',
-          {
-            firstName: this.firstName,
-            lastName: this.lastName,
-            email: this.email,
-            password: this.password,
-          }
-        );
-        if (this.authenticationService.setSession()) {
+        if (this.authenticationService.setSession(createdUserResponse.data)) {
           this.router.navigateByUrl('home');
         }
       }

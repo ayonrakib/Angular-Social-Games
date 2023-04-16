@@ -13,6 +13,7 @@ import { PollComponent } from './components/features/poll/poll.component';
 import { CreatePollComponent } from './components/features/create-poll/create-poll.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
+import { HttpClientModule } from '@angular/common/http';
 import {
   DateValueAccessor,
   DateValueAccessorModule,
@@ -46,6 +47,7 @@ import { CreatePlayerComponent } from './components/features/create-player/creat
     DateValueAccessorModule,
     LocalDateValueAccessor,
     LocalDateValueAccessorModule,
+    HttpClientModule,
   ],
   providers: [CookieService],
   bootstrap: [AppComponent],

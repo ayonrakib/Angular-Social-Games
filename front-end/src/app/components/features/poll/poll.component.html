@@ -1,29 +1,87 @@
-<div id={{pollId}} class="container" style="background-color: black; width: 30%; border-radius: 30px; color: white; padding: 40px;">
-    <div class="row" style="font-size: x-large;">
-        {{pollDay}} {{pollDate}} {{pollMonth}}, {{pollYear}} at {{pollTime}}
+<div
+  id="{{ pollId }}"
+  class="container"
+  style="
+    background-color: black;
+    width: 30%;
+    border-radius: 30px;
+    color: white;
+    padding: 40px;
+  "
+>
+  <div class="row" style="font-size: x-large">
+    {{ pollDay }} {{ pollDate }} {{ pollMonth }}, {{ pollYear }} at
+    {{ pollTime }}
+  </div>
+  <div class="row">
+    {{ pollLocation }}
+  </div>
+  <br />
+  <div class="d-flex justify-content-center">
+    <div
+      class="btn-group"
+      role="group"
+      aria-label="Basic checkbox toggle button group"
+    >
+      <input
+        type="radio"
+        class="btn-check"
+        name="{{ currentPollName }}"
+        id="{{ firstButtonId }}"
+        value="yes"
+        autocomplete="off"
+        (click)="handleClick($event)"
+      />
+      <label
+        class="btn btn-outline-success"
+        for="{{ firstButtonId }}"
+        style="width: 110px; border-color: white; color: lightgreen"
+        >Yes <span class="badge text-bg-primary">{{ yesVoters }}</span></label
+      >
+
+      <input
+        type="radio"
+        class="btn-check"
+        name="{{ currentPollName }}"
+        id="{{ secondButtonId }}"
+        value="no"
+        autocomplete="off"
+        (click)="handleClick($event)"
+      />
+      <label
+        class="btn btn-outline-success"
+        for="{{ secondButtonId }}"
+        style="width: 110px; border-color: white; color: lightgreen"
+        >No <span class="badge text-bg-primary">{{ noVoters }}</span></label
+      >
+
+      <input
+        type="radio"
+        class="btn-check"
+        name="{{ currentPollName }}"
+        id="{{ thirdButtonId }}"
+        value="maybe"
+        autocomplete="off"
+        (click)="handleClick($event)"
+      />
+      <label
+        class="btn btn-outline-success"
+        for="{{ thirdButtonId }}"
+        style="width: 110px; border-color: white; color: lightgreen"
+        >Maybe
+        <span class="badge text-bg-primary">{{ maybeVoters }}</span></label
+      >
     </div>
-    <div class="row">
-        {{pollLocation}}
-    </div>
-    <br> 
-    <div class="d-flex justify-content-center">
-        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-            <input type="radio" class="btn-check" name={{currentPollName}} id={{firstButtonId}} value="yes" autocomplete="off" (click)='handleClick($event)'>
-            <label class="btn btn-outline-success" for={{firstButtonId}} style="width: 110px; border-color: white; color:lightgreen;">Yes <span class="badge text-bg-primary">{{yesVoters}}</span></label>
-            
-            <input type="radio" class="btn-check" name={{currentPollName}} id={{secondButtonId}} value="no" autocomplete="off" (click)='handleClick($event)'>
-            <label class="btn btn-outline-success" for={{secondButtonId}} style="width: 110px; border-color: white; color:lightgreen;">No <span class="badge text-bg-primary">{{noVoters}}</span></label>
-            
-            <input type="radio" class="btn-check" name={{currentPollName}} id={{thirdButtonId}} value="maybe" autocomplete="off" (click)='handleClick($event)'>
-            <label class="btn btn-outline-success" for={{thirdButtonId}} style="width: 110px; border-color: white; color:lightgreen;">Maybe <span class="badge text-bg-primary">{{maybeVoters}}</span></label>
-            </div>
-    </div>
-    <br>
-    <hr>
-    <div class="row">
-        Location:
-    </div>
-    <div style="width: 100%; height: 200px; text-align: left;">
-        <a target="_blank" href={{pollMap}}><img style="object-fit: fill; overflow: hidden; width: 100%; height: 100%;" src={{pollImage}} alt="Cedar Park Recreation Center"></a>
-    </div>
+  </div>
+  <br />
+  <hr />
+  <div class="row">Location:</div>
+  <div style="width: 100%; height: 200px; text-align: left">
+    <a target="_blank" href="{{ pollMap }}"
+      ><img
+        style="object-fit: fill; overflow: hidden; width: 100%; height: 100%"
+        src="{{ pollImage }}"
+        alt="Cedar Park Recreation Center"
+    /></a>
+  </div>
 </div>

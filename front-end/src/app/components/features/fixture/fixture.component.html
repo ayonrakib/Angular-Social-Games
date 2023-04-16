@@ -1,12 +1,11 @@
-<div style="height: 10%;">
-    <app-navbar></app-navbar>
+<div style="height: 10%">
+  <app-navbar></app-navbar>
 </div>
-<div style="height: 90%; margin: 50px;">
-    <li *ngFor="let poll of polls; let i = index" style="list-style-type: none; margin-bottom: 30px;">
-        <app-poll
-            [poll] = "poll"
-            [pollName] = 'i'
-        >
-        </app-poll>
-    </li>
+<div style="height: 90%; margin: 50px">
+  <li
+    *ngFor="let poll of polls; let i = index"
+    style="list-style-type: none; margin-bottom: 30px"
+  >
+    <app-poll [poll]="poll" [pollName]="i"> </app-poll>
+  </li>
 </div>

@@ -2,7 +2,8 @@ const UserModel = require("../models/User");
 const userSequelize = require("../mariadb");
 import ApiError from "../utils/exception";
 import Response from "../utils/rest";
-const crypto = require("crypto-js");
+import crypto from "crypto-js";
+import getErrorFormat from "../utils/error";
 import faker from "faker";
 
 class UserController {
@@ -15,8 +16,9 @@ class UserController {
 
   async getUser(
     attribute: number | string
-  ): Promise<ApiError | typeof UserModel> {
+  ): Promise<ApiError | typeof UserModel | Response> {
     console.log("parameter: ", attribute);
+    console.log("parameter type: ", typeof attribute);
     if (Number.isInteger(attribute)) {
       const user = await UserModel.findAll({
         where: {
@@ -27,19 +29,36 @@ class UserController {
       const response = new Response(user[0].dataValues, null);
       return response;
     } else {
-      const user = await UserModel.findAll({
-        where: {
-          email: attribute,
-        },
-      });
-      console.log("user with email: ", user);
-      if (user.length === 0) {
-        const errorResponse = new ApiError(200, "user not found!");
-        console.log("error response: ", errorResponse);
-        return new ApiError(200, "user not found!");
-      } else {
-        const response = new Response(user[0].dataValues, null);
-        return response;
+      try {
+        const user = await UserModel.findOne({
+          where: {
+            email: attribute,
+          },
+        });
+        console.log("user with email in get user method try block: ", user);
+        if (user !== null) {
+          console.log("found user!");
+          const userFoundResponseresponse = new Response(true, null);
+          return userFoundResponseresponse;
+        } else {
+          console.log("didnt find user!");
+          const userNotFoundResponse = new Response(false, null);
+          return userNotFoundResponse;
+        }
+      } catch (error) {
+        const errorResponse = new ApiError(
+          300,
+          "Could not connect with database! Please try again!"
+        );
+        console.log(
+          "error response in catch block of get user method: ",
+          errorResponse
+        );
+        const errorFindingUserResponse = new Response(
+          null,
+          errorResponse.getResponse()
+        );
+        return errorFindingUserResponse;
       }
     }
   }
@@ -62,26 +81,28 @@ class UserController {
         salt: salt,
         session: session,
       });
-      const userCreatedResponse = new Response(true, null);
+      if (user instanceof UserModel) {
+        const userCreatedResponse = new Response(true, null);
+        return userCreatedResponse;
+      }
+
       const userFailedToCreateError = new ApiError(
         300,
         "User faild to create!"
       );
       const userFailedToCreateErrorResponse = new Response(
         null,
-        userFailedToCreateError
+        userFailedToCreateError.getResponse()
       );
-      return user.isNewRecord === false
-        ? userCreatedResponse
-        : userFailedToCreateErrorResponse;
+      return userFailedToCreateErrorResponse;
     } catch (error) {
       const userFailedToCreateError = new ApiError(
         400,
-        "User faild to create!"
+        "Couldnt connect to database! Please try again!"
       );
       const userFailedToCreateErrorResponse = new Response(
         null,
-        userFailedToCreateError
+        userFailedToCreateError.getResponse()
       );
       return userFailedToCreateErrorResponse;
     }
@@ -113,7 +134,7 @@ class UserController {
         200,
         "Failed to updated password!"
       );
-      return new Response(null, errorUpdatingPassword);
+      return new Response(null, errorUpdatingPassword.getResponse());
     }
   }
 

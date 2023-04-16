@@ -1,13 +1,19 @@
 export default class ApiError extends Error {
-    constructor(code: number, message: string){
-        super(message);
-    }
+  constructor(public code: number, public message: string) {
+    super(message);
+  }
+  // input: error code int, error message str
+  // return error format in JS obj
+  // method: get error format
+  //  1. return { errorCode: code, errorMessage: message }
 
-    static fromAPiError(apiError:any){
-        let error: any;
-        if(apiError !== null){
-            error = new ApiError(apiError.errorCode, apiError.message);
-        }
-        return error;
-    }
+  getResponse(): {
+    errorCode: number;
+    errorMessage: string;
+  } {
+    return {
+      errorCode: this.code,
+      errorMessage: this.message,
+    };
+  }
 }

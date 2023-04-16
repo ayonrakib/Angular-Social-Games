@@ -1,48 +1,134 @@
-<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-sm-6">
-            <div class="row" style=" margin-bottom: 10px;">
-                <div style="display: flex; flex-direction: row;">
-                    <div style="margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">First Name: </div>
-                    <input class="form-control " type="text" [(ngModel)]="firstName" label="firstName" placeholder="first name" required/>
-                </div>
+<div
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  "
+>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm-6">
+        <div class="row" style="margin-bottom: 10px">
+          <div style="display: flex; flex-direction: row">
+            <div
+              style="
+                margin-right: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+              class="col-sm-5"
+            >
+              First Name:
             </div>
-            <div class="row" style=" margin-bottom: 10px;">
-                <div style="display: flex; flex-direction: row;">
-                    <div style="margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">Last Name: </div>
-                    <input class="form-control " type="text" [(ngModel)]="lastName" label="lastName" placeholder="last name" required/>
-                </div>
-            </div>
-            <div class="row" style=" margin-bottom: 10px;">
-                <div style="display: flex; flex-direction: row;">
-                    <div style=" margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">Email: </div>
-                    <input class="form-control " type="text" [(ngModel)]="email" label="email" placeholder="email" required/>
-                </div>
-            </div>
-            <div class="row" style=" margin-bottom: 10px;">
-                <div style="display: flex; flex-direction: row;">
-                    <div style="margin-right: 10px; display: flex; align-items: center; justify-content: center;" class="col-sm-5">Password: </div>
-                    <input class="form-control "type="password" [(ngModel)]="password" label="password" placeholder="password" required/>
-                </div>
-            </div>
-            <br>
-            <div class="row" style=" margin-bottom: 10px;">
-                <div style="display: flex; flex-direction: row; justify-content: space-around;">
-                    <div class="col-sm-4 d-flex justify-content-center">
-                        <button type="button" class="btn btn-primary" (click)="register()">Register</button>
-                    </div>
-                    <div class="col-sm-4 d-flex justify-content-center">
-                        <button routerLink="/" type="button" class="btn btn-primary">Go Back</button>
-                    </div>
-                </div>
-            </div>
+            <input
+              class="form-control"
+              type="text"
+              [(ngModel)]="firstName"
+              label="firstName"
+              placeholder="first name"
+              required
+            />
+          </div>
         </div>
+        <div class="row" style="margin-bottom: 10px">
+          <div style="display: flex; flex-direction: row">
+            <div
+              style="
+                margin-right: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+              class="col-sm-5"
+            >
+              Last Name:
+            </div>
+            <input
+              class="form-control"
+              type="text"
+              [(ngModel)]="lastName"
+              label="lastName"
+              placeholder="last name"
+              required
+            />
+          </div>
+        </div>
+        <div class="row" style="margin-bottom: 10px">
+          <div style="display: flex; flex-direction: row">
+            <div
+              style="
+                margin-right: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+              class="col-sm-5"
+            >
+              Email:
+            </div>
+            <input
+              class="form-control"
+              type="text"
+              [(ngModel)]="email"
+              label="email"
+              placeholder="email"
+              required
+            />
+          </div>
+        </div>
+        <div class="row" style="margin-bottom: 10px">
+          <div style="display: flex; flex-direction: row">
+            <div
+              style="
+                margin-right: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+              class="col-sm-5"
+            >
+              Password:
+            </div>
+            <input
+              class="form-control"
+              type="password"
+              [(ngModel)]="password"
+              label="password"
+              placeholder="password"
+              required
+            />
+          </div>
+        </div>
+        <br />
+        <div class="row" style="margin-bottom: 10px">
+          <div
+            style="
+              display: flex;
+              flex-direction: row;
+              justify-content: space-around;
+            "
+          >
+            <div class="col-sm-4 d-flex justify-content-center">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="register()"
+              >
+                Register
+              </button>
+            </div>
+            <div class="col-sm-4 d-flex justify-content-center">
+              <button routerLink="/" type="button" class="btn btn-primary">
+                Go Back
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<app-modal
-    [modalBody] = "modalBody"
-    [modalTitle] = "modalTitle"
->
+<app-modal [modalBody]="modalBody" [modalTitle]="modalTitle"></app-modal>
