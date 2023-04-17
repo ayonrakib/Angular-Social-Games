@@ -172,12 +172,26 @@ class UserController {
     return isUserCreated;
   }
 
-  async deleteUser(email: string): Promise<boolean> {
+  async deleteUser(email: string): Promise<Response> {
     console.log("came to delete user!");
     try {
-      return true;
+      const user = await this.getUser(email);
+      console.log("user in deleteUser in controller: ", user);
+      if (user.data !== null && user.data !== false) {
+        await user.data.destroy();
+      }
+      const deletedUserResponse = new Response(true, null);
+      return deletedUserResponse;
     } catch (error) {
-      return true;
+      const failedToDeleteError = new ApiError(
+        400,
+        "Couldnt connect to database! Please try again!"
+      );
+      const failedToDeleteResponse = new Response(
+        null,
+        failedToDeleteError.getResponse()
+      );
+      return failedToDeleteResponse;
     }
   }
 

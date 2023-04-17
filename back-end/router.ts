@@ -4,12 +4,10 @@ const router = expresAapp.Router();
 const crypto = require("crypto-js");
 const bcrypt = require("bcrypt");
 const fs = require("fs");
-import Response from "./utils/rest";
-import ApiError from "./utils/exception";
 import pollController from "./controller/PollController";
 import userController from "./controller/UserController";
 import voteTableController from "./controller/VoteTableController";
-import faker from "faker";
+import Response from "./utils/rest";
 
 router.get("/", (req: any, res: any) => {
   console.log("reached / url!");
@@ -55,7 +53,7 @@ router.post("/create-poll", async (req: any, res: any) => {
       pollTime,
       pollLocation
     );
-    res.send(true);
+    res.send(poll);
   }
 });
 
@@ -111,8 +109,8 @@ router.post("/delete-user", async (req: any, res: any) => {
   console.log("reached /delete-user url!");
   console.log("req is: ", req.body);
   let email = req.body.email;
-  if (email != "") {
-  }
+  const deleteUserResponse = await userController.deleteUser(email);
+  res.send(deleteUserResponse);
 });
 
 router.post("/update-password", async (req: any, res: any) => {
