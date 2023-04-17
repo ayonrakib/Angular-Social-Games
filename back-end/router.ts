@@ -78,83 +78,23 @@ router.post("/login", async (req: any, res: any) => {
   console.log("came to login url!");
   let email = req.body.email;
   let password = req.body.password;
-  const loginResponseFromService = await userController.getUser(email);
-  console.log("loginResponseFromService in login: ", loginResponseFromService);
-  console.log(
-    "loginResponseFromService.length: ",
-    loginResponseFromService.length
-  );
-  if (loginResponseFromService.data === null) {
-    res.send(loginResponseFromService);
-  }
-  //   const salt = getRandomizedString();
-  //   const hashedPassword = hashPassword(password, getRandomizedString());
-  //   console.log("hashed password is: ", hashedPassword);
-  if (loginResponseFromService.data !== null) {
-    const salt = bcrypt.genSaltSync(10);
-    console.log("bcrypt salt: ", salt);
-    const hashedPassword = bcrypt.hashSync(password, salt);
-    console.log("bcrypt hash: ", hashedPassword);
-    console.log(
-      "bcrypt decrypt: ",
-      bcrypt.compareSync("password", hashedPassword)
-    );
-    res.end();
-  } else {
-    // const errorResponse = ApiError.fromAPiError({
-    //   errorCode: 100,
-    //   errorMessage: "User not found!",
-    // });
-    // console.log("error response: ", errorResponse);
-    // const userNotFoundResponse = new Response(null, errorResponse);
-    // console.log("userNotFoundResponse: ", userNotFoundResponse);
-    // res.send(userNotFoundResponse);
-  }
+  const loginRepsonse = await userController.login(email, password);
+  console.log("login response from controller: ", loginRepsonse);
+  res.send(loginRepsonse);
 });
 
 router.post("/register", async (req: any, res: any) => {
-  console.log("reached /register url!");
-  console.log("req is: ", req.body);
   let firstName = req.body.firstName;
   let lastName = req.body.lastName;
   let email = req.body.email;
   let password = req.body.password;
-  const isUserFound = await userController.getUser(email);
-  console.log("isUserFound in register: ", isUserFound);
-  // this.createUser("", "", "", "", "", "");
-  if (isUserFound.data) {
-    const userFoundError = new ApiError(300, "User already exists!");
-    const userFoundResponse = new Response(null, userFoundError.getResponse());
-    res.send(userFoundResponse);
-  } else {
-    console.log("create user in register url!");
-    const salt = faker.random.alphaNumeric(10);
-    const hashedPassword = hashPassword(password, salt);
-    const session = faker.random.alphaNumeric(10);
-    const isUserCreated = await userController.createUser(
-      firstName,
-      lastName,
-      email,
-      hashedPassword,
-      salt,
-      session
-    );
-    console.log("isUserCreated response in register: ", isUserCreated);
-    if (isUserCreated.data) {
-      const userCreatedResponse = new Response(session, null);
-      res.send(userCreatedResponse);
-    } else {
-      const userNotCreatedError = new ApiError(
-        500,
-        "User failed to create! Please try again!"
-      );
-      const userNotCreatedResponse = new Response(
-        null,
-        userNotCreatedError.getResponse()
-      );
-      res.send(userNotCreatedResponse);
-    }
-  }
+  const isUserRegistered = await userController.register(
+    firstName,
+    lastName,
+    email,
+    password
+  );
+  res.send(isUserRegistered);
 });
 
 router.post("/get-user", async (req: any, res: any) => {

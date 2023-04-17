@@ -45,28 +45,19 @@ export class AuthenticationComponent implements OnInit {
         this.callModal.callModal(this.modalBody, this.modalTitle);
       }
     } else {
-      if (this.email === 'a' && this.password === 's') {
-        // this.authenticationService.setSession();
-        this.router.navigateByUrl('home');
+      const loginResponse = await this.authenticationService.login(
+        this.email,
+        this.password
+      );
+      if (loginResponse.data.data === null) {
+        console.log('came inside authentication failure in login component!');
+        this.modalBody = loginResponse.data.error.errorMessage;
+        this.modalTitle = loginResponse.data.error.errorCode + ' error!';
+        this.callModal.callModal(this.modalBody, this.modalTitle);
       } else {
-        const loginResponse = await this.authenticationService.login(
-          this.email,
-          this.password
-        );
-        console.log('login repsonse: ', loginResponse);
-        if (loginResponse.data.data === null) {
-          console.log('came inside user not found in login component!');
-          this.modalBody = loginResponse.data.error.errorMessage;
-          this.modalTitle = loginResponse.data.error.errorCode + ' error!';
-          this.callModal.callModal(this.modalBody, this.modalTitle);
-        }
+        this.authenticationService.setSession(loginResponse.data.data);
+        this.router.navigateByUrl('home');
       }
-
-      // else {
-      //   this.modalBody = 'Wrong credentials! Please enter again!';
-      //   this.modalTitle = 'Failed!';
-      //   this.callModal.callModal(this.modalBody, this.modalTitle);
-      // }
     }
   }
 }

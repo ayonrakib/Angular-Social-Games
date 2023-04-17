@@ -23,7 +23,7 @@ export class AuthenticationService {
     return this.cookieService.get('session');
   }
 
-  setSession(session:string): boolean {
+  setSession(session: string): boolean {
     this.cookieService.set('session', session);
     return this.getSession() === '' ? false : true;
   }

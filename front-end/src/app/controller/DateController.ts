@@ -77,28 +77,28 @@ const dayString = timeDifference.substring(
   monthIndex + 1,
   timeDifference.length - 1
 );
-console.log('yearString: ', yearString);
-console.log('monthsString: ', monthsString);
-console.log('dayString: ', dayString);
+// console.log('yearString: ', yearString);
+// console.log('monthsString: ', monthsString);
+// console.log('dayString: ', dayString);
 const yearDifference = Number(yearString);
 const monthDifference = Number(monthsString);
 const dayDifference = Number(dayString);
-console.log('year str to int: ', yearDifference);
-console.log('month str to int: ', monthDifference);
-console.log('day str to int: ', dayDifference);
+// console.log('year str to int: ', yearDifference);
+// console.log('month str to int: ', monthDifference);
+// console.log('day str to int: ', dayDifference);
 ('+12y-11m+25d');
-console.log(
-  'getmodifiedDateByDayDifference(+25): ',
-  dateController.getModifiedDateByDayDifference(dayDifference)
-);
-console.log(
-  'getmodifiedDateByMonthDifference(-11): ',
-  dateController.getModifiedDateByMonthDifference(monthDifference)
-);
-console.log(
-  'getmodifiedDateByYearDifference(+12): ',
-  dateController.getModifiedDateByYearDifference(yearDifference)
-);
+// console.log(
+//   'getmodifiedDateByDayDifference(+25): ',
+//   dateController.getModifiedDateByDayDifference(dayDifference)
+// );
+// console.log(
+//   'getmodifiedDateByMonthDifference(-11): ',
+//   dateController.getModifiedDateByMonthDifference(monthDifference)
+// );
+// console.log(
+//   'getmodifiedDateByYearDifference(+12): ',
+//   dateController.getModifiedDateByYearDifference(yearDifference)
+// );
 // export default dateController;
 
 // '+1y+3m-5d'
