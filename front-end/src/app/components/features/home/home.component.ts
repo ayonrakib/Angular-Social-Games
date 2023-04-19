@@ -12,18 +12,19 @@ export class HomeComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router
-  ) // private dateController: DateController
-  {}
+  ) {}
 
   ngOnInit(): void {
-    if (this.authenticationService.getSession() === '') {
-      this.router.navigateByUrl('');
-    }
-    // console.log(
-    //   '5 years ago date in home component: ',
-    //   this.dateController.getModifiedDateByYearDifference(5) +
-    //     ' and type of date: ',
-    //   typeof this.dateController.getModifiedDateByYearDifference(5)
-    // );
+    const validateSession = this.authenticationService.validateSession();
+    console.log('validate session in ngonit of login: ', validateSession);
+    validateSession.then((response) => {
+      console.log(
+        'response in resolved validate session in ngonint of login: ',
+        response
+      );
+      if (response.data === null) {
+        this.router.navigateByUrl('/');
+      }
+    });
   }
 }

@@ -8,6 +8,7 @@ import pollController from "./controller/PollController";
 import userController from "./controller/UserController";
 import voteTableController from "./controller/VoteTableController";
 import Response from "./utils/rest";
+// import { login } from "./router/user";
 
 router.get("/", (req: any, res: any) => {
   console.log("reached / url!");
@@ -47,11 +48,13 @@ router.post("/create-poll", async (req: any, res: any) => {
   let pollDate = req.body.pollDate;
   let pollTime = req.body.pollTime;
   let pollLocation = req.body.pollLocation;
+  let owner_id = req.body.owner_id;
   if (pollDate != "" && pollTime != "" && pollLocation != "") {
     let poll = await pollController.createPoll(
       pollDate,
       pollTime,
-      pollLocation
+      pollLocation,
+      owner_id
     );
     res.send(poll);
   }
@@ -72,14 +75,14 @@ router.get("/get-votes", async (req: any, res: any) => {
   res.send(response);
 });
 
-router.post("/login", async (req: any, res: any) => {
-  console.log("came to login url!");
-  let email = req.body.email;
-  let password = req.body.password;
-  const loginRepsonse = await userController.login(email, password);
-  console.log("login response from controller: ", loginRepsonse);
-  res.send(loginRepsonse);
-});
+// router.post("/login", async (req: any, res: any) => {
+//   console.log("came to login url!");
+//   let email = req.body.email;
+//   let password = req.body.password;
+//   const loginRepsonse = await userController.login(email, password);
+//   console.log("login response from controller: ", loginRepsonse);
+//   res.send(loginRepsonse);
+// });
 
 router.post("/register", async (req: any, res: any) => {
   let firstName = req.body.firstName;

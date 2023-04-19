@@ -14,9 +14,12 @@ for (let i = 0; i < 1; i++) {
     .toLocaleDateString();
   var randomTime = faker.date
     .between(new Date(), "2030-04-09T00:00:00.000Z")
-    .toTimeString();
+    .toLocaleTimeString();
   console.log("randomTime: ", randomTime); // Outputs a random randomNumber
+  console.log("randomTime type: ", typeof randomTime);
   console.log("randomDate: ", randomDate); // Outputs a random randomNumber
+  console.log("randomDate type: ", typeof randomDate);
+
   console.log("randomNumber: ", randomNumber); // Outputs a random randomNumber
   console.log("randomName: ", randomName); // Outputs a random name
   console.log("randomEmail: ", randomEmail); // Outputs a random email
@@ -27,3 +30,5 @@ for (let i = 0; i < 1; i++) {
   console.log("randomPassword: ", randomPassword); // Gives back a random card
   console.log("randomSalt: ", randomSalt); // Gives back a random card
 }
+
+// console.log("current time: ", new Date().to);

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../services/authentication.service';
 import CallModal from 'src/app/utils/CallModal';
-import axios from 'axios';
+import validate from 'validate.js';
 
 @Component({
   selector: 'app-authentication',
@@ -17,10 +17,17 @@ export class AuthenticationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const authCookie = this.authenticationService.getSession();
-    if (authCookie !== '') {
-      this.router.navigateByUrl('home');
-    }
+    const validateSession = this.authenticationService.validateSession();
+    console.log('validate session in ngonit of login: ', validateSession);
+    validateSession.then((response) => {
+      console.log(
+        'response in resolved validate session in ngonint of login: ',
+        response
+      );
+      if (response.data !== null) {
+        this.router.navigateByUrl('home');
+      }
+    });
   }
 
   email: string = '';

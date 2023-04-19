@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-let randomstring = require('randomstring');
 import axios from 'axios';
 
 @Injectable({
@@ -31,5 +30,17 @@ export class AuthenticationService {
   deleteSession(): boolean {
     this.cookieService.delete('session');
     return this.getSession() === '' ? true : false;
+  }
+
+  async validateSession(): Promise<any> {
+    const session = this.getSession();
+    const validateSession = await axios.post('http://localhost:3000/validate', {
+      session: session,
+    });
+    console.log(
+      'validate sesison in authentication service: ',
+      validateSession.data
+    );
+    return validateSession.data;
   }
 }

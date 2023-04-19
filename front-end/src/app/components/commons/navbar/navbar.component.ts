@@ -6,42 +6,43 @@ import { CreatePollComponent } from 'src/app/components/features/create-poll/cre
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
+  constructor(
+    private authenticationService: AuthenticationService,
+    private router: Router
+  ) {}
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
-  }
-
-  goToHome():void{
+  goToHome(): void {
     this.router.navigateByUrl('');
   }
 
-  showAnnouncements():void{
+  showAnnouncements(): void {
     this.router.navigateByUrl('announcements');
   }
 
-  showRules():void{
+  showRules(): void {
     this.router.navigateByUrl('rules');
   }
 
-  showFixture():void{
+  showFixture(): void {
     this.router.navigateByUrl('fixture');
   }
 
-  createPoll():void{
+  createPoll(): void {
     this.router.navigateByUrl('create-poll');
   }
 
-  createPlayer():void{
+  createPlayer(): void {
     this.router.navigateByUrl('create-player');
   }
 
-  logout():void{
-    console.log("came to logout!");
-    if(this.authenticationService.deleteSession()){
+  logout(): void {
+    console.log('came to logout!');
+    if (this.authenticationService.deleteSession()) {
       this.router.navigateByUrl('');
     }
   }

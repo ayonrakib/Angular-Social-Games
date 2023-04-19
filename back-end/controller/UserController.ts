@@ -15,9 +15,22 @@ class UserController {
     return users;
   }
 
-  async getUser(
-    attribute: number | string
-  ): Promise<ApiError | typeof UserModel | Response> {
+  async getUserWithSession(session: string): Promise<Response> {
+    const isUserFound = await UserModel.findOne({
+      where: { session: session },
+    });
+    if (isUserFound === null) {
+      const sessionNotFoundError = new ApiError(530, "Wrong session!");
+      const sessionNotFoundResponse = new Response(
+        null,
+        sessionNotFoundError.getResponse()
+      );
+      return sessionNotFoundResponse;
+    }
+    return new Response(isUserFound, null);
+  }
+
+  async getUser(attribute: number | string): Promise<Response> {
     console.log("parameter: ", attribute);
     console.log("parameter type: ", typeof attribute);
     if (Number.isInteger(attribute)) {
