@@ -5,10 +5,21 @@ app.use(cors());
 app.use(express.json());
 const routerFile = require("./router");
 const userRoutes = require("./router/user");
+const playerRoutes = require("./router/player");
 const db = require("./mariadb");
 import winston from "winston";
 import expressWinston from "express-winston";
+const multer = require("multer");
+import path from "path";
+import bodyParser from "body-parser";
 const port = 3000;
+
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
 app.use(
   expressWinston.logger({
@@ -42,6 +53,8 @@ logger.info("winston logger on server file!");
 app.use("/", routerFile);
 
 app.use("/", userRoutes);
+
+app.use("/", playerRoutes);
 
 app.listen(3000, () => {
   console.log(`Example app listening on port ${port}`);

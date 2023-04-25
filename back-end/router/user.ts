@@ -1,6 +1,8 @@
 import express from "express";
 const router = express.Router();
 import userController from "../controller/UserController";
+import ApiError from "../utils/exception";
+import Response from "../utils/rest";
 
 router.post("/login", async (req: any, res: any) => {
   console.log("came to login url!");
@@ -25,7 +27,7 @@ router.post("/register", async (req: any, res: any) => {
   res.send(isUserRegistered);
 });
 
-router.post("/validate", async (req: any, res: any) => {
+router.post("/validate", async (req: any, res: any, next: any) => {
   console.log("came to validate session!");
   const session = req.body.session;
   console.log("session in validate url: ", session);
@@ -33,15 +35,25 @@ router.post("/validate", async (req: any, res: any) => {
     session
   );
   console.log("user with session in validate url: ", isUserFoundWithSession);
-  console.log(
-    "user.data with session in validate url: ",
-    isUserFoundWithSession.data
-  );
-  console.log(
-    "user.data.dataValues with session in validate url: ",
-    isUserFoundWithSession.data.dataValues
-  );
-  res.send(isUserFoundWithSession);
+  if (isUserFoundWithSession.data === null) {
+    const userNotFoundError = new ApiError(300, "User not found!");
+    const userNotFoundResponse = new Response(
+      null,
+      userNotFoundError.getResponse()
+    );
+    res.send(userNotFoundResponse);
+    next();
+  } else {
+    console.log(
+      "user.data with session in validate url: ",
+      isUserFoundWithSession.data
+    );
+    console.log(
+      "user.data.dataValues with session in validate url: ",
+      isUserFoundWithSession.data.dataValues
+    );
+    res.send(isUserFoundWithSession);
+  }
 });
 
 router.post("/get-user", async (req: any, res: any) => {

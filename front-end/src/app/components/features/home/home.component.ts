@@ -14,17 +14,11 @@ export class HomeComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    const validateSession = this.authenticationService.validateSession();
-    console.log('validate session in ngonit of login: ', validateSession);
-    validateSession.then((response) => {
-      console.log(
-        'response in resolved validate session in ngonint of login: ',
-        response
-      );
-      if (response.data === null) {
-        this.router.navigateByUrl('/');
-      }
-    });
+  async ngOnInit(): Promise<void> {
+    const validateSession = await this.authenticationService.validateSession();
+    if (validateSession.data === null) {
+      this.authenticationService.deleteSession();
+      this.router.navigateByUrl('/');
+    }
   }
 }
