@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ImageService } from '../../../services/image.service';
 import { PlayerService } from 'src/app/services/player.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import CallModal from 'src/app/utils/CallModal';
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
 }
@@ -16,7 +17,8 @@ export class CreatePlayerComponent implements OnInit {
   constructor(
     private imageService: ImageService,
     private playerService: PlayerService,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private callModal: CallModal
   ) {}
 
   ngOnInit(): void {}
@@ -26,6 +28,8 @@ export class CreatePlayerComponent implements OnInit {
   password: string = '';
   image: string = '';
   profilePicture: File | null = null;
+  modalBody!: string;
+  modalTitle!: string;
 
   handleFileInput(files: FileList) {
     this.profilePicture = files.item(0);
@@ -52,33 +56,23 @@ export class CreatePlayerComponent implements OnInit {
       this.profilePicture,
       session
     );
-    console.log('isplayer created response: ', isPlayerCreated);
+    console.log(
+      'isplayer created response in create player component: ',
+      isPlayerCreated
+    );
+    console.log(
+      'isplayer created response.data in create player component: ',
+      isPlayerCreated.data
+    );
+    console.log(
+      'isplayer created response.data.data in create player component: ',
+      isPlayerCreated.data.data
+    );
+    if (isPlayerCreated.data.data === null) {
+      console.log('calling modal in create player component in error input!');
+      this.modalBody = isPlayerCreated.data.error.errorMessage;
+      this.modalTitle = isPlayerCreated.data.error.errorCode + ' error!';
+      this.callModal.callModal(this.modalBody, this.modalTitle);
+    }
   }
-
-  // uploadFileToActivity() {
-  //   this.imageService.postFile(this.profilePicture).subscribe((data: any) => {
-  //     // do something, if upload success
-  //     }, (error: any) => {
-  //       console.log(error);
-  //     });
-  // }
-  // processFile(imageInput: any) {
-  //   const file: File = imageInput.files[0];
-  //   const reader = new FileReader();
-
-  //   reader.addEventListener('load', (event: any) => {
-
-  //     this.selectedFile = new ImageSnippet(event.target.result, file);
-
-  //     this.imageService.uploadImage(this.selectedFile.file).subscribe(
-  //       (res:any) => {
-
-  //       },
-  //       (err:any) => {
-
-  //       })
-  //   });
-
-  //   reader.readAsDataURL(file);
-  // }
 }

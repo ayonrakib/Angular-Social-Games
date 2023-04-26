@@ -3,9 +3,12 @@ const router = express.Router();
 import playerController from "../controller/PlayerController";
 import userController from "../controller/UserController";
 import path from "path";
+import ApiError from "../utils/exception";
+import Response from "../utils/rest";
 import multer from "multer";
 var fs = require("fs");
 import { readFile } from "node:fs";
+import verifyInput from "../utils/VerifyInput";
 
 const storage = multer.diskStorage({
   destination: (req: any, file: any, cb: any) => {
@@ -26,13 +29,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 function renameProfilePicture(fileName: any) {
-  // const firstName = req.body.firstName;
-  // const lastName = req.body.lastName;
-  // console.log("req.body in renameProfilePicture: ", req.body);
-  // fs.readFile(`./assets/temp-images/${fileName}`, (err: any, data: any) => {
-  //   if (err) throw err;
-  //   console.log("image is: ", data);
-  // });
   readFile(`./assets/temp-images/${fileName}`, (err, data) => {
     if (err) throw err;
     console.log(data);
@@ -55,18 +51,57 @@ router.post(
   upload.single("profilePicture"),
   async (req: any, res: any, next: any) => {
     console.log("came to create-player url!");
+    let isFirstNameString = verifyInput.isInputString(req.body.firstName);
+    let isLastNameString = verifyInput.isInputString(req.body.lastName);
+    let isEmailString = verifyInput.isInputString(req.body.email);
+    let isPasswordStringOrUndefined = verifyInput.isInputStringOrUndefined(
+      req.body.password
+    );
+    let isSessionStringOrUndefined = verifyInput.isInputStringOrUndefined(
+      req.body.session
+    );
+    let isFileImage = verifyInput.isInputImage(req.file);
+    console.log(
+      "isFirstNameString and isLastNameString and isEmailString and isPasswordStringOrUndefined and isSessionStringOrUndefined and isFileImage: ",
+      isFirstNameString,
+      isLastNameString,
+      isEmailString,
+      isPasswordStringOrUndefined,
+      isSessionStringOrUndefined,
+      isFileImage
+    );
+    if (
+      !(
+        isFirstNameString &&
+        isLastNameString &&
+        isEmailString &&
+        isPasswordStringOrUndefined &&
+        isSessionStringOrUndefined &&
+        isFileImage
+      )
+    ) {
+      const inputError = new ApiError(260, "Input is wrong!");
+      const inputErrorResponse = new Response(null, inputError.getResponse());
+      res.send(inputErrorResponse);
+      res.end();
+    }
+    console.log("first name type: ", isFirstNameString);
     let firstName = req.body.firstName;
     let lastName = req.body.lastName;
     let email = req.body.email;
     let session = req.body.session;
     let profilePicture = req.file;
-    console.log("req.body in create player url: ", req.body);
-    console.log("req.file in create player url: ", req.file);
+    // console.log("type of file: ", typeof req.file);
+    // console.log("mime type of file: ", req.file.mimetype);
+    // console.log("is file image: ", req.file.mimetype.includes("image"));
+    // console.log("req.body in create player url: ", req.body);
+    // console.log("req.file in create player url: ", req.file);
     const fileExtension = req.file.originalname.substring(
       req.file.originalname.indexOf(".")
     );
     const fileName =
       req.body.firstName + "-" + req.body.lastName + fileExtension;
+
     renameProfilePicture(fileName);
     const isPlayerCreated = await playerController.createPlayer(
       firstName,
@@ -74,10 +109,10 @@ router.post(
       email,
       profilePicture
     );
-    console.log(
-      "isPlayerCreated response from playercontroller: ",
-      isPlayerCreated
-    );
+    // console.log(
+    //   "isPlayerCreated response from playercontroller: ",
+    //   isPlayerCreated
+    // );
     //   const loginRepsonse = await userController.login(email, password);
     //   console.log("login response from controller: ", loginRepsonse);
     //   res.send(loginRepsonse);

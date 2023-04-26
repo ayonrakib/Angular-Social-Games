@@ -13,7 +13,7 @@ export class PlayerService {
     email: string,
     profilePicture: any,
     session: string
-  ): Promise<void> {
+  ): Promise<any> {
     let formData = new FormData();
     formData.append('firstName', firstName);
     formData.append('lastName', lastName);
@@ -26,5 +26,6 @@ export class PlayerService {
       formData
     );
     console.log('isplayer created response: ', isPlayerCreated);
+    return isPlayerCreated;
   }
 }
