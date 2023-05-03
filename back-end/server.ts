@@ -5,13 +5,14 @@ app.use(cors());
 app.use(express.json());
 const routerFile = require("./router");
 const userRoutes = require("./router/user");
-const playerRoutes = require("./router/player");
+const imageRoutes = require("./router/image");
 const db = require("./mariadb");
 import winston from "winston";
 import expressWinston from "express-winston";
 const multer = require("multer");
 import path from "path";
 import bodyParser from "body-parser";
+import pino from "pino";
 const port = 3000;
 import { Colorette, red } from "colorette";
 const redColor: Colorette = {
@@ -149,7 +150,7 @@ const formatters = {
     };
   },
 };
-import pino from "pino";
+
 // const pretty = require("pino-pretty");
 // const stream = pretty({
 //   colorize: false,
@@ -237,7 +238,7 @@ app.use("/", routerFile);
 
 app.use("/", userRoutes);
 
-app.use("/", playerRoutes);
+app.use("/", imageRoutes);
 
 app.listen(3000, () => {
   console.log(`Example app listening on port ${port}`);

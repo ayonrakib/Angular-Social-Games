@@ -1,4 +1,4 @@
-class VerifyInput {
+class Validator {
   constructor() {}
 
   isInputString(input: any): boolean {
@@ -18,9 +18,10 @@ class VerifyInput {
   }
 
   isInputImage(file: any): boolean {
+    console.log("file is: ", file);
     return file.mimetype.includes("image") === true ? true : false;
   }
 }
 
-const verifyInput = new VerifyInput();
+const verifyInput = new Validator();
 export default verifyInput;

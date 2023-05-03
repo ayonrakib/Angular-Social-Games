@@ -10,7 +10,7 @@ export class AuthenticationService {
 
   async login(email: string, password: string): Promise<any> {
     console.log('came to authentication service login!');
-    const loginResponse = await axios.post('http://localhost:3000/login', {
+    const loginResponse = await axios.post('http://localhost:3000/user/login', {
       email: email,
       password: password,
     });

@@ -4,8 +4,7 @@ import ApiError from "../utils/exception";
 import Response from "../utils/rest";
 import crypto from "crypto-js";
 import bcrypt from "bcrypt";
-import getErrorFormat from "../utils/error";
-import faker from "faker";
+import verifyInput from "../utils/VerifyInput";
 
 class UserController {
   constructor() {}
@@ -15,7 +14,9 @@ class UserController {
     return users;
   }
 
-  async getUserWithSession(session: string): Promise<Response> {
+  async getUserWithSession(
+    session: string
+  ): Promise<Response | typeof UserModel> {
     const isUserFound = await UserModel.findOne({
       where: { session: session },
     });
@@ -56,7 +57,11 @@ class UserController {
           return userFoundResponseresponse;
         } else {
           console.log("didnt find user!");
-          const userNotFoundResponse = new Response(false, null);
+          const userNotFoundError = new ApiError(150, "User not found!");
+          const userNotFoundResponse = new Response(
+            null,
+            userNotFoundError.getResponse()
+          );
           return userNotFoundResponse;
         }
       } catch (error) {
@@ -80,16 +85,7 @@ class UserController {
   async login(email: string, password: string): Promise<Response> {
     const isUserFound = await this.getUser(email);
     console.log("isuserfound in login of controller: ", isUserFound);
-    console.log("isuserfound.data in login of controller: ", isUserFound.data);
-    console.log(
-      "isuserfound.data.dataValues in login of controller: ",
-      isUserFound.data.dataValues
-    );
-    console.log(
-      "isuserfound.error in login of controller: ",
-      isUserFound.error
-    );
-    if (isUserFound.data === false) {
+    if (isUserFound.data === null) {
       const loginError = new ApiError(500, "User not found! Please try again!");
       const loginErrorResponse = new Response(null, loginError.getResponse());
       return loginErrorResponse;
@@ -230,6 +226,71 @@ class UserController {
       );
       return new Response(null, errorUpdatingPassword.getResponse());
     }
+  }
+
+  async makeAdmin(email: string): Promise<boolean> {
+    const currentUser = await UserModel.findOne({ where: { email: email } });
+    console.log("current user in make admin method: ", currentUser);
+    if (currentUser === null) {
+      return false;
+    }
+    await currentUser.update({ role: "admin" });
+    await currentUser.save();
+    return true;
+  }
+
+  async isAdmin(session: string): Promise<Response> {
+    const currentUser = await this.getUserWithSession(session);
+    console.log("current user in is admin method: ", currentUser);
+    if (currentUser.data === null) {
+      const userIsNotAdminError = new ApiError(150, "User is not an admin!");
+      const userIsNotAdminResponse = new Response(
+        null,
+        userIsNotAdminError.getResponse()
+      );
+      return userIsNotAdminResponse;
+    }
+    // await currentUser.update({ role: "admin" });
+    // await currentUser.save();
+    const userIsAdminResponse = new Response(true, null);
+    return userIsAdminResponse;
+  }
+
+  verifyRegistrationInputsFromAdmin(req: any): Response {
+    let isFirstNameString = verifyInput.isInputString(req.body.firstName);
+    let isLastNameString = verifyInput.isInputString(req.body.lastName);
+    let isEmailString = verifyInput.isInputString(req.body.email);
+    let isPasswordStringOrUndefined = verifyInput.isInputStringOrUndefined(
+      req.body.password
+    );
+    let isSessionStringOrUndefined = verifyInput.isInputStringOrUndefined(
+      req.body.session
+    );
+    let isFileImage = verifyInput.isInputImage(req.file);
+    // console.log(
+    //   "isFirstNameString and isLastNameString and isEmailString and isPasswordStringOrUndefined and isSessionStringOrUndefined and isFileImage: ",
+    //   isFirstNameString,
+    //   isLastNameString,
+    //   isEmailString,
+    //   isPasswordStringOrUndefined,
+    //   isSessionStringOrUndefined,
+    //   isFileImage
+    // );
+    if (
+      !(
+        isFirstNameString &&
+        isLastNameString &&
+        isEmailString &&
+        isPasswordStringOrUndefined &&
+        isSessionStringOrUndefined &&
+        isFileImage
+      )
+    ) {
+      const inputError = new ApiError(260, "Input is wrong!");
+      const inputErrorResponse = new Response(null, inputError.getResponse());
+      return inputErrorResponse;
+    }
+    return new Response(true, null);
   }
 
   hashPassword(password: string, salt: string): string {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { UserService } from 'src/app/services/user.service';
 import { CreatePollComponent } from 'src/app/components/features/create-poll/create-poll.component';
 
 @Component({
@@ -11,11 +12,17 @@ import { CreatePollComponent } from 'src/app/components/features/create-poll/cre
 export class NavbarComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
+    private userService: UserService,
     private router: Router
   ) {}
 
   ngOnInit(): void {}
+  isAdmin!: boolean;
 
+  amIAdmin(): boolean {
+    // const amIAdmin = this.userService.create
+    return true;
+  }
   goToHome(): void {
     this.router.navigateByUrl('');
   }
@@ -30,6 +37,10 @@ export class NavbarComponent implements OnInit {
 
   showFixture(): void {
     this.router.navigateByUrl('fixture');
+  }
+
+  showProfile(): void {
+    this.router.navigateByUrl('profile');
   }
 
   createPoll(): void {

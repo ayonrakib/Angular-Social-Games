@@ -22,6 +22,7 @@ import {
 } from 'angular-date-value-accessor';
 import { ModalComponent } from './components/commons/modal/modal.component';
 import { CreatePlayerComponent } from './components/features/create-player/create-player.component';
+import { ProfileComponent } from './components/features/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { CreatePlayerComponent } from './components/features/create-player/creat
     CreatePollComponent,
     ModalComponent,
     CreatePlayerComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

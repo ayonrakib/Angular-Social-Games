@@ -1,0 +1,146 @@
+Delivered-To: ayonrakib@gmail.com
+Received: by 2002:a05:6918:7a8e:b029:2c:a76c:f623 with SMTP id o14csp1199781ysr;
+        Tue, 1 Jun 2021 14:15:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFh7f+Q/Kk9CmyFSB6jjRp/X3PocpBjfr+lpslURSU1twxwp0iwOBS1lEISO6YtPCzknQa
+X-Received: by 2002:a37:7046:: with SMTP id l67mr23788339qkc.69.1622582112882;
+        Tue, 01 Jun 2021 14:15:12 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1622582112; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=UCfIi0nBxZdg7v7D0Qmlh8nbt+OPnYQm2ZRrNh7U6iPkawwnJ7eeON1sBDmfQw5lDf
+         vTNJCs/lNq5M4ZYFHLaGVf5PUjXwvbCxzZCpLDAbkKpVBrD+ujIRNcXJvrGJiusWOz4M
+         ZJ8dCGkoQP9++TfBPgxui9HE2XfXT+5qIrdYCFRtx5Pd0X5AZGsOZeL6H4huNxYy+xEv
+         e+CqaflFUdHIW2wwbfJIfpLvgKvch/2PZ7eOLjUFcmo47cnTYdMSkcGN2IcvUMC1JU5V
+         ub+MbV48bmRkt3s5Rd6RyBY5p67Xj4f4BxBy0+hvLVlsmeZEpQMXS5xsy6oeQYwxyzHt
+         jL1g==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:mime-version:subject:message-id:to:from
+         :date:dkim-signature;
+        bh=6Epm3G91HfLihN3c7FB4r34oc8qp0rNN79hhQc7Gl38=;
+        b=ujfwb++TQgpxMZYpTzuGS0eQmDl3k43ZPrOynBUWXdFaRNX5OLCK/qWwo3IDlVGflG
+         Cf8DDqtjUaffOdqyhzM6cEUG0wrsANil2FYJDShVfkRQFmPdJyQg2obj+jOoi08q20M0
+         b0BiqP0OxODLPxfgpMEv6QuSZXMcPzDHvfnScC1CRw967Bwej+UNRBdiOhXXy5GVgEVE
+         +M2kNrQCjFeDNvpPSnRSRRW4lIgaFwNJQxjfMkvtJ3JpDM4jsn9bCNJNbpURFumdWjfx
+         dq/gARqscI3+Dnotlt4zZsdmIaeqHYu/R065S75BXJHEDlGuY8RQwAN828B9h4aydqR6
+         kCbw==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@dhs.gov header.s=select1 header.b=bcLiFyoC;
+       arc=pass (i=1 spf=pass spfdomain=dhs.gov dmarc=pass fromdomain=dhs.gov);
+       spf=pass (google.com: domain of uscis-casestatus@dhs.gov designates 67.231.155.98 as permitted sender) smtp.mailfrom=USCIS-CaseStatus@dhs.gov;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=dhs.gov
+Return-Path: <USCIS-CaseStatus@dhs.gov>
+Received: from mx0f-00376703.gpphosted.com (mx0f-00376703.gpphosted.com. [67.231.155.98])
+        by mx.google.com with ESMTPS id 6si12051455qtz.185.2021.06.01.14.15.12
+        for <ayonrakib@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 01 Jun 2021 14:15:12 -0700 (PDT)
+Received-SPF: pass (google.com: domain of uscis-casestatus@dhs.gov designates 67.231.155.98 as permitted sender) client-ip=67.231.155.98;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@dhs.gov header.s=select1 header.b=bcLiFyoC;
+       arc=pass (i=1 spf=pass spfdomain=dhs.gov dmarc=pass fromdomain=dhs.gov);
+       spf=pass (google.com: domain of uscis-casestatus@dhs.gov designates 67.231.155.98 as permitted sender) smtp.mailfrom=USCIS-CaseStatus@dhs.gov;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=dhs.gov
+Received: from pps.filterd (m0186851.ppops.net [127.0.0.1])
+	by mx0f-00376703.gpphosted.com (8.16.0.43/8.16.0.43) with SMTP id 151L5p8n008139
+	for <ayonrakib@gmail.com>; Tue, 1 Jun 2021 21:15:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dhs.gov; h=date : from : to :
+ message-id : subject : mime-version : content-type :
+ content-transfer-encoding; s=select1;
+ bh=6Epm3G91HfLihN3c7FB4r34oc8qp0rNN79hhQc7Gl38=;
+ b=bcLiFyoC1Uu9oPpPlDcNQ86kkwzFdH9i0YurGYIdqb4L2s561EhCUkWJe3w42j5PjU1P
+ 2oOieCPtLtQFo0CpXt453kf4Adb12zFxu3Wp3Pcj/qXAZhEP+2eqbUGVjIKSdqq7al6I
+ z0yqpUMQVZ6TAUygsxMhuSRBs7lrXMVgtjkC416MPCZiiCBR2TyMkXda/08HPoy6VT63
+ BKqOie8FqWz96ewlliZUdYocF2IF9agzg6Lih7xqoSTJDgTWbx9NXGIF3GklGqo1lClc
+ FM294RBvzyMv/kZr7IqDzwT+B621uW+rwhxDaqw2M8BgQpaeLZaGVCye7+e4Vz9q5Jxz zw== 
+Received: from gcc02-dm3-obe.outbound.protection.outlook.com (mail-dm3gcc02lp2108.outbound.protection.outlook.com [104.47.65.108])
+	by mx0f-00376703.gpphosted.com with ESMTP id 38wuvhr6pb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <ayonrakib@gmail.com>; Tue, 01 Jun 2021 21:15:12 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bJf6TcG0TckfS0mr2ndH7jYCu/FKPLViYQYfM9bc9xo1fAUq82uID3LQSKo/VpVyUlLi8gJCrio8DUvc3u8Qyy/BkWgtTkZyKgFXnJxiVndVm37V4lFFbI1BdwFPZp8Qt/wQ28+eQGd+SayurD/JyYChJJKfWObvxdqsUBxm9lHP6H/IDWgMLJTBpk4cTC9iQWMChM1Jv7AUAHfZUxgOuR9Hb+kqUzrrN+t2Mwtc7FlYErGHxftFvmzFNPc7NWTPsh1y4iVSM1SszBO+NlE92VopQGGImTiuc1+2x60FyAshOCN4gUzl74LiTD65mT0WEaAMZlk/3v0MvjYAXarrSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6Epm3G91HfLihN3c7FB4r34oc8qp0rNN79hhQc7Gl38=;
+ b=DolISC2ZRZ5A7y/5/5A02NReDN4kMpee1UXY4wPKuUTm58XE11EYn2d8Th59KKzq9zVpTkCrKF0QeubCj6E8H5XlskV0aIzuohtUryps7cRAvzBhK86U6GXtbNWdRm/4tTNlpCyj6R/6DzZWk0AILI14Hj5RbKcGy7+46CNFz1wQ9WhfLvfP9PiXFpiFFSxU6068vxzb1QQEwPSG/uMwvKAXYj2ToR6OGa2mtHbUq5LPVHdTLAGfJTpOMjApgaQDINDO2Z3/+XHfZlgSCPAGAObI9vbc5dFmV3iBJnNyzbMx0LwtJpeJ9MbtrlkyaZFfI6hY700dn/tWCDUbpW3PKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.81.91.184) smtp.rcpttodomain=gmail.com smtp.mailfrom=dhs.gov; dmarc=pass
+ (p=reject sp=reject pct=100) action=none header.from=dhs.gov; dkim=none
+ (message not signed); arc=none
+Received: from DM6PR09CA0029.namprd09.prod.outlook.com (2603:10b6:5:160::42)
+ by DM6PR09MB5767.namprd09.prod.outlook.com (2603:10b6:5:262::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Tue, 1 Jun
+ 2021 21:15:11 +0000
+Received: from DM3GCC02FT006.eop-gcc02.prod.protection.outlook.com
+ (2a01:111:f400:7d04::208) by DM6PR09CA0029.outlook.office365.com
+ (2603:10b6:5:160::42) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.20 via Frontend
+ Transport; Tue, 1 Jun 2021 21:15:11 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.81.91.184)
+ smtp.mailfrom=dhs.gov; gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=pass action=none header.from=dhs.gov;
+Received-SPF: Pass (protection.outlook.com: domain of dhs.gov designates
+ 216.81.91.184 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.81.91.184; helo=D1IAPPREACIP2.dhs.gov;
+Received: from D1IAPPREACIP2.dhs.gov (216.81.91.184) by
+ DM3GCC02FT006.mail.protection.outlook.com (10.97.8.155) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4195.18 via Frontend Transport; Tue, 1 Jun 2021 21:15:10 +0000
+Received: from unknown (HELO D1ASEVPEMHU03.DSA.DHS) ([10.79.208.226])
+  by D1IAPPREACIP2.dhs.gov with ESMTP/TLS/AES256-GCM-SHA384; 01 Jun 2021 21:15:10 +0000
+Received: from D1ASEVPEMHU05.DSA.DHS (10.79.208.228) by D1ASEVPEMHU03.DSA.DHS
+ (10.79.208.226) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.10; Tue, 1 Jun
+ 2021 17:15:10 -0400
+Received: from coa-ext-prod-dc-65-mz45m (10.79.209.170) by
+ D1ASEVPEMHU05.DSA.DHS (10.79.208.228) with Microsoft SMTP Server id
+ 15.1.2242.10 via Frontend Transport; Tue, 1 Jun 2021 17:15:10 -0400
+Date: Tue, 1 Jun 2021 17:15:10 -0400
+From: <USCIS-CaseStatus@dhs.gov>
+To: <ayonrakib@gmail.com>
+Message-ID: <2032125467.10983.1622582110444@coa-ext-prod-dc-65-mz45m>
+Subject: Address Change Request Confirmation
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-CrossPremisesHeadersFilteredBySendConnector: D1ASEVPEMHU03.DSA.DHS
+X-OrganizationHeadersPreserved: D1ASEVPEMHU03.DSA.DHS
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4995862c-0340-49f7-950c-08d925425737
+X-MS-TrafficTypeDiagnostic: DM6PR09MB5767:
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR09MB576701E1FD951772FB2618EF873E9@DM6PR09MB5767.namprd09.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1051;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	8ZqK3D1DEi7MjoLXDJwyTtOHX/WDwt7WZW2+ohA8EZCSKthfnLVJK1dqDAYLFkxV0+m3g6i+u+5o/L7EJkpOjuBUrZOFvfkUthA2E4ZHal9o5uDVU07UQtpC6WRC6FqA3S1lqRO+/OjjBEIXi6dNYpV0K42DtvkesBX/gb4DpaOp+tGKx3Ca/V+U+7Cztlu9zrfvJfDWAdv6zczx8dQS2zMXzNp+e8i4b9Fd421LQG7xDs6b0XZHyOlAXcZ2q69B/KjVSpeDfxITmITvGwBAlq6WOx+3/gghaOxRMHD8HmUWJDiX2LahYchkAiHljwqICJIM09LKcKPMjzddhpsjYCkfJb1LIc1Fg6cfc8PB/tIseqWjZE+wSC0dLN5b9dcl3CJd58/nAb83bojVHhvscNFcQnrgU/J5AaqKkWzFyjFwUONbdhL2qCSkwLraQq/mZdBoTpKY2GY9RCam9D1XCU+P2XTyCZVV5YlzIB29BvVvd5K25vaUTYa39pUR861UNEwBX/eSbdIw2eBTXu1EmgT8jjnp7aT1qPbthoP3/3Rve8KtZ/xivwdtaslg24BjxQAKDoG+JCFIi0zJpZ/K8Bvay0e7F6r5ihJ76OLKmM87+dftnuasxAIrs6lPi7Esl+n9XesFDBKHsf3nU6Z99eA9rg7o6MCluJfFqV2d0I2ONt/mhdZJ3dGhrmdm6DB2
+X-Forefront-Antispam-Report: 
+	CIP:216.81.91.184;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:D1IAPPREACIP2.dhs.gov;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(39860400002)(376002)(136003)(396003)(346002)(46966006)(36840700001)(186003)(2906002)(356005)(70206006)(82740400003)(70586007)(55016002)(81166007)(316002)(8936002)(2876002)(86362001)(478600001)(36860700001)(82310400003)(336012)(83380400001)(5660300002)(558084003)(8676002)(9686003)(33716001)(26005)(6916009)(47076005)(3480700007)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: dhs.gov
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2021 21:15:10.8426
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4995862c-0340-49f7-950c-08d925425737
+X-MS-Exchange-CrossTenant-Id: 3ccde76c-946d-4a12-bb7a-fc9d0842354a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3ccde76c-946d-4a12-bb7a-fc9d0842354a;Ip=[216.81.91.184];Helo=[D1IAPPREACIP2.dhs.gov]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DM3GCC02FT006.eop-gcc02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR09MB5767
+X-Proofpoint-GUID: -flcgWVJd5SwgsuJlvGSATgUmjxUYz67
+X-Proofpoint-ORIG-GUID: -flcgWVJd5SwgsuJlvGSATgUmjxUYz67
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
+ definitions=2021-06-01_10:2021-06-01,2021-06-01 signatures=0
+X-Proofpoint-Spam-Reason: safe
+
+Address change request successfully submitted:
+Updated Address To:
+Rakib Hasan Ayon
+335 CYPRESS CREEK RD
+APT 1605
+CEDAR PARK, TX 78613
+AR-11: COA15221003845
+Service Request:CA11522107811MSC
+Expect a reply by:June 15, 2021

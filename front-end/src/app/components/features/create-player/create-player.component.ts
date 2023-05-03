@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ImageService } from '../../../services/image.service';
-import { PlayerService } from 'src/app/services/player.service';
+import { UserService } from 'src/app/services/user.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import CallModal from 'src/app/utils/CallModal';
 class ImageSnippet {
@@ -16,7 +16,7 @@ export class CreatePlayerComponent implements OnInit {
   files: any;
   constructor(
     private imageService: ImageService,
-    private playerService: PlayerService,
+    private userService: UserService,
     private authenticationService: AuthenticationService,
     private callModal: CallModal
   ) {}
@@ -49,12 +49,11 @@ export class CreatePlayerComponent implements OnInit {
       this.profilePicture
     );
     const session = this.authenticationService.getSession();
-    const isPlayerCreated = await this.playerService.create(
+    const isPlayerCreated = await this.userService.create(
       this.firstName,
       this.lastName,
       this.email,
-      this.profilePicture,
-      session
+      this.password
     );
     console.log(
       'isplayer created response in create player component: ',
