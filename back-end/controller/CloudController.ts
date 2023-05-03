@@ -4,6 +4,7 @@ import AWS, { S3 } from "aws-sdk";
 var fs = require("fs");
 import { readFile } from "node:fs";
 import { randomBytes } from "crypto";
+import userController from "./UserController";
 
 class CloudController {
   s3Controller: S3;
@@ -58,13 +59,14 @@ class CloudController {
     return false;
   }
 
-  getSignedURLToUploadImage(): string {
+  async getSignedURLToUploadImage(session: string): Promise<string> {
     const rawBytes = randomBytes(16);
     const imageName = rawBytes.toString("hex");
+    const user = await userController.getUserWithSession(session);
 
     const params = {
       Bucket: this.bucketName,
-      Key: "125.png",
+      Key: `${user.data.dataValues.id}.png`,
       Expires: 60,
       ContentType: "image/png",
     };

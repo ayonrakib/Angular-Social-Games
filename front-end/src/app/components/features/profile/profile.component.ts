@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import CallModal from 'src/app/utils/CallModal';
 
 @Component({
@@ -8,7 +9,11 @@ import CallModal from 'src/app/utils/CallModal';
   styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
-  constructor(private userService: UserService, private callModal: CallModal) {}
+  constructor(
+    private userService: UserService,
+    private callModal: CallModal,
+    private authenticationService: AuthenticationService
+  ) {}
 
   profileData: any = null;
   profilePicture!: File;
@@ -25,8 +30,9 @@ export class ProfileComponent implements OnInit {
   }
 
   async updateProfilePicture(): Promise<void> {
+    const session = this.authenticationService.getSession();
     const signedURLForUploadingProfilePicture =
-      await this.userService.getSignedURLForUploadingProfilePicture();
+      await this.userService.getSignedURLForUploadingProfilePicture(session);
 
     const profilePictureURL = await this.userService.uploadProfilePicture(
       signedURLForUploadingProfilePicture.data,

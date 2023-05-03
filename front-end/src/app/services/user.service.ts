@@ -47,9 +47,12 @@ export class UserService {
     return profileData;
   }
 
-  async getSignedURLForUploadingProfilePicture(): Promise<any> {
-    const signedURLForUploadingProfilePicture = await axios.get(
-      'http://localhost:3000/image/get-signed-url'
+  async getSignedURLForUploadingProfilePicture(session: string): Promise<any> {
+    const signedURLForUploadingProfilePicture = await axios.post(
+      'http://localhost:3000/image/get-signed-url',
+      {
+        session: session,
+      }
     );
     return signedURLForUploadingProfilePicture.data;
   }

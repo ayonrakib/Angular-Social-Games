@@ -72,7 +72,10 @@ router.post(
       let lastName = req.body.lastName;
       let email = req.body.email;
       let password = req.body.password;
-      const signedURL = cloudController.getSignedURLToUploadImage();
+      let session = req.body.session;
+      const signedURL = await cloudController.getSignedURLToUploadImage(
+        session
+      );
       const signedURLResponse = new Response(signedURL, null);
       res.send(signedURLResponse);
       // const user = await userController.register(

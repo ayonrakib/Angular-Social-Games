@@ -9,9 +9,10 @@ import Response from "../utils/rest";
 import express from "express";
 const router = express.Router();
 
-router.get("/image/get-signed-url", (req: any, res: any) => {
+router.post("/image/get-signed-url", async (req: any, res: any) => {
   console.log("came into /image/get-signed-url!");
-  const signedURL = cloudController.getSignedURLToUploadImage();
+  const session = req.body.session;
+  const signedURL = await cloudController.getSignedURLToUploadImage(session);
   const signedURLResponse = new Response(signedURL, null);
   res.send(signedURLResponse);
 });
