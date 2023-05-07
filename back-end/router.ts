@@ -36,44 +36,44 @@ router.get("/read-file", async (req: any, res: any) => {
   );
 });
 
-router.get("/get-polls", async (req: any, res: any) => {
-  console.log("reached /get-polls url!");
-  const polls = await pollController.getPolls();
-  res.send(polls);
-});
+// router.get("/get-polls", async (req: any, res: any) => {
+//   console.log("reached /get-polls url!");
+//   const polls = await pollController.getPolls();
+//   res.send(polls);
+// });
 
-router.post("/create-poll", async (req: any, res: any) => {
-  console.log("reached /create-poll url!");
-  console.log("req is: ", req.body);
-  let pollDate = req.body.pollDate;
-  let pollTime = req.body.pollTime;
-  let pollLocation = req.body.pollLocation;
-  let owner_id = req.body.owner_id;
-  if (pollDate != "" && pollTime != "" && pollLocation != "") {
-    let poll = await pollController.createPoll(
-      pollDate,
-      pollTime,
-      pollLocation,
-      owner_id
-    );
-    res.send(poll);
-  }
-});
+// router.post("/create-poll", async (req: any, res: any) => {
+//   console.log("reached /create-poll url!");
+//   console.log("req is: ", req.body);
+//   let pollDate = req.body.pollDate;
+//   let pollTime = req.body.pollTime;
+//   let pollLocation = req.body.pollLocation;
+//   let owner_id = req.body.owner_id;
+//   if (pollDate != "" && pollTime != "" && pollLocation != "") {
+//     let poll = await pollController.createPoll(
+//       pollDate,
+//       pollTime,
+//       pollLocation,
+//       owner_id
+//     );
+//     res.send(poll);
+//   }
+// });
 
-router.post("/cast-vote", async (req: any, res: any) => {
-  console.log("came in cast vote url.");
-  console.log("req is: ", req.body);
-  const isVoteCast = await voteTableController.castVote(req.body);
-  const response = new Response(true, null);
-  res.send(response);
-});
+// router.post("/cast-vote", async (req: any, res: any) => {
+//   console.log("came in cast vote url.");
+//   console.log("req is: ", req.body);
+//   const isVoteCast = await voteTableController.castVote(req.body);
+//   const response = new Response(true, null);
+//   res.send(response);
+// });
 
-router.get("/get-votes", async (req: any, res: any) => {
-  console.log("came in get votes url!");
-  const votes = await voteTableController.getVotes();
-  const response = new Response(votes, null);
-  res.send(response);
-});
+// router.get("/get-votes", async (req: any, res: any) => {
+//   console.log("came in get votes url!");
+//   const votes = await voteTableController.getVotes();
+//   const response = new Response(votes, null);
+//   res.send(response);
+// });
 
 // router.post("/login", async (req: any, res: any) => {
 //   console.log("came to login url!");

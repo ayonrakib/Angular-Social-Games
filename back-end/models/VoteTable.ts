@@ -1,31 +1,34 @@
-import DataTypes from 'sequelize';
-const sequelize = require('../mariadb');
+import DataTypes from "sequelize";
+const sequelize = require("../mariadb");
 
-const Vote_Table = sequelize.define('vote_tables', {
+const Vote_Table = sequelize.define(
+  "vote_tables",
+  {
     id: {
-        type: DataTypes.BIGINT,
-        unique: true,
-        allownull: false
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      allownull: false,
     },
     pollId: {
-        type: DataTypes.BIGINT,
-        primaryKey: true,
-        allowNull: false
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
     },
     userId: {
-        type: DataTypes.BIGINT,
-        primaryKey: true,
-        allowNull: false
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
     },
     voteType: {
-        type: DataTypes.STRING,
-        allowNull: false
-    }
-},
-{
-  timestamps: false,
-  createdAt: false,
-  updatedAt: false,      
-})
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    timestamps: false,
+    createdAt: false,
+    updatedAt: false,
+  }
+);
 
 export default Vote_Table;

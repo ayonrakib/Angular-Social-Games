@@ -13,8 +13,6 @@ import dotenv from "dotenv";
 dotenv.config();
 import AWS from "aws-sdk";
 import cloudController from "../controller/CloudController";
-// console.log("access key: ", process.env.AWS_ACCESS_KEY);
-// console.log("s3 signed url is: ", cloudController.getSignedURLToUploadImage());
 
 const storage = multer.diskStorage({
   destination: (req: any, file: any, cb: any) => {
@@ -58,7 +56,6 @@ router.post(
   async (req: any, res: any, next: any) => {
     console.log("came to create-player url!");
     console.log("req.body: ", req.body);
-    console.log("req.file: ", req.file);
     const verifiedInputs =
       userController.verifyRegistrationInputsFromAdmin(req);
     console.log("verifiedInputs: ", verifiedInputs);
@@ -72,77 +69,13 @@ router.post(
       let lastName = req.body.lastName;
       let email = req.body.email;
       let password = req.body.password;
-      let session = req.body.session;
-      const signedURL = await cloudController.getSignedURLToUploadImage(
-        session
+      const user = await userController.register(
+        firstName,
+        lastName,
+        email,
+        password
       );
-      const signedURLResponse = new Response(signedURL, null);
-      res.send(signedURLResponse);
-      // const user = await userController.register(
-      //   firstName,
-      //   lastName,
-      //   email,
-      //   password
-      // );
-      // res.send(user);
-      // console.log("type of file: ", typeof req.file);
-      // console.log("mime type of file: ", req.file.mimetype);
-      // console.log("is file image: ", req.file.mimetype.includes("image"));
-      // console.log("req.body in create player url: ", req.body);
-      // console.log("req.file in create player url: ", req.file);
-      // const fileExtension = req.file.originalname.substring(
-      //   req.file.originalname.indexOf(".")
-      // );
-      // const fileName =
-      //   req.body.firstName + "-" + req.body.lastName + fileExtension;
-
-      // renameProfilePicture(fileName);
-      // const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
-      // const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
-      // const bucketName = "nodejs-bucket-ayon";
-      // const s3 = new AWS.S3({
-      //   accessKeyId: AWS_ACCESS_KEY,
-      //   secretAccessKey: AWS_SECRET_ACCESS_KEY,
-      //   region: "us-east-1",
-      // });
-      // const bucketCreateparameters = {
-      //   Bucket: bucketName,
-      // };
-      // console.log("req.file in s3: ", req.file);
-      // const fileContent = fs.createReadStream(req.file);
-      // console.log("file content in s3: ", fileContent);
-      // s3.createBucket(bucketCreateparameters, function (err, data) {
-      //   if (err) console.log(err, err.stack);
-      //   else console.log("Bucket Created Successfully", data);
-      // });
-      // const fileInBinary = fs.readFileSync(
-      //   `D:/Coding/angular/login-register/back-end/assets/profile-pictures/${fileName}`
-      // );
-      // console.log("fileInBinary: ", fileInBinary);
-      // const fileUploadParameters = {
-      //   Bucket: bucketName,
-      //   Key: "123.png",
-      //   Body: fileInBinary,
-      // };
-      // s3.upload(fileUploadParameters, function (err: any, data: any) {
-      //   if (err) {
-      //     throw err;
-      //   }
-      //   console.log(`File uploaded successfully which is: ${data}`);
-      // });
-      // const isPlayerCreated = await playerController.createPlayer(
-      //   firstName,
-      //   lastName,
-      //   email,
-      //   profilePicture
-      // );
-      // console.log(
-      //   "isPlayerCreated response from playercontroller: ",
-      //   isPlayerCreated
-      // );
-      //   const loginRepsonse = await userController.login(email, password);
-      //   console.log("login response from controller: ", loginRepsonse);
-      //   res.send(loginRepsonse);
+      res.send(user);
     }
   }
 );

@@ -260,13 +260,7 @@ class UserController {
     let isFirstNameString = verifyInput.isInputString(req.body.firstName);
     let isLastNameString = verifyInput.isInputString(req.body.lastName);
     let isEmailString = verifyInput.isInputString(req.body.email);
-    let isPasswordStringOrUndefined = verifyInput.isInputStringOrUndefined(
-      req.body.password
-    );
-    let isSessionStringOrUndefined = verifyInput.isInputStringOrUndefined(
-      req.body.session
-    );
-    let isFileImage = verifyInput.isInputImage(req.file);
+    let isPasswordString = verifyInput.isInputString(req.body.password);
     // console.log(
     //   "isFirstNameString and isLastNameString and isEmailString and isPasswordStringOrUndefined and isSessionStringOrUndefined and isFileImage: ",
     //   isFirstNameString,
@@ -281,9 +275,7 @@ class UserController {
         isFirstNameString &&
         isLastNameString &&
         isEmailString &&
-        isPasswordStringOrUndefined &&
-        isSessionStringOrUndefined &&
-        isFileImage
+        isPasswordString
       )
     ) {
       const inputError = new ApiError(260, "Input is wrong!");

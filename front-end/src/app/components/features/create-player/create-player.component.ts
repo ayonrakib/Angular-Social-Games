@@ -26,27 +26,15 @@ export class CreatePlayerComponent implements OnInit {
   lastName: string = '';
   email: string = '';
   password: string = '';
-  image: string = '';
-  profilePicture: File | null = null;
   modalBody!: string;
   modalTitle!: string;
-
-  handleFileInput(files: FileList) {
-    this.profilePicture = files.item(0);
-  }
-
-  onFileChange(event: any): void {
-    this.profilePicture = event.target.files[0];
-    console.log(event.target.files[0]);
-  }
 
   async create(): Promise<void> {
     console.log(
       'the fields in create player are: ',
       this.firstName,
       this.lastName,
-      this.email,
-      this.profilePicture
+      this.email
     );
     const session = this.authenticationService.getSession();
     const isPlayerCreated = await this.userService.create(

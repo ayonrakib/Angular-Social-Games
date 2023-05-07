@@ -1,6 +1,28 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PollService } from '../../../services/poll.service';
 import { VoteService } from '../../../services/vote.service';
+import { ShowVotersComponent } from '../show-voters/show-voters.component';
+import CallModal from 'src/app/utils/CallModal';
+import logger from 'src/app/utils/Logger';
+// import pino from 'pino';
+// // import path from 'path';
+// // const scriptName = path.basename(__filename);
+// const formatters = {
+//   bindings(bindings: any) {
+//     return {
+//       pid: bindings.pid,
+//       hostname: bindings.hostname,
+//       methodName: 'ayon',
+//       // fileName: scriptName,
+//       node_version: process.version,
+//     };
+//   },
+// };
+// const logger = pino({
+//   formatters: formatters,
+//   msgPrefix: 'this is a message prefix!',
+// });
+logger.info('came to poll component with pino pretty!');
 
 @Component({
   selector: 'app-poll',
@@ -10,13 +32,15 @@ import { VoteService } from '../../../services/vote.service';
 export class PollComponent implements OnInit {
   constructor(
     private pollService: PollService,
-    private voteService: VoteService
+    private voteService: VoteService,
+    private callModal: CallModal
   ) {}
 
-  ngOnInit(): void {
-    console.log('poll in PollComponent is: ', this.poll);
+  async ngOnInit(): Promise<void> {
+    // logger.info('poll in PollComponent is: ', this.poll);
+    // logger.info('poll in PollComponent is: ', this.poll);
     let date = new Date(this.poll.pollDate);
-    console.log('date in poll component: ', date);
+    // logger.info('date in poll component: ', date);
     this.pollDate = date.getDate();
     this.pollMonth = this.months[date.getMonth()];
     this.pollYear = date.getFullYear();
@@ -25,7 +49,8 @@ export class PollComponent implements OnInit {
     this.pollImage = this.images[this.poll.pollLocation];
     this.pollId = this.poll.id.toString();
     this.timeStamp = this.poll.pollTime.split(':');
-    console.log('pollId: ', this.pollId);
+    // logger.info('pollId: ', this.pollId);
+    // logger.info('pollId: ', this.pollId);
     this.pollTime =
       Number(this.timeStamp[0]) > Number('12')
         ? (24 - Number(this.timeStamp[0])).toString() +
@@ -40,19 +65,33 @@ export class PollComponent implements OnInit {
     this.secondButtonId = this.pollId + '-' + 'no';
     this.thirdButtonId = this.pollId + '-' + 'maybe';
     this.currentPollName = this.pollName.toString();
-
-    const votes = this.voteService.getVotes();
-    console.log('votes in poll component: ', votes);
-    votes.then((response) => {
-      console.log(
-        'resolved votes in poll component: ',
-        response.data.data.data
-      );
-      this.yesVoters = response.data.data.data.yesVoters;
-      this.noVoters = response.data.data.data.noVoters;
-      this.maybeVoters = response.data.data.data.maybeVoters;
-    });
+    // logger.info('votes in poll component: ', this.votes);
+    this.yesVoters = 0;
+    this.noVoters = 0;
+    this.maybeVoters = 0;
+    // logger.info('this.pollid: ', typeof this.pollId);
+    for (let index = 0; index < this.votes.length; index++) {
+      // logger.info('current vote obj: ', this.votes[index]);
+      // logger.info('current vote: ', this.votes[index]['voteType']);
+      // logger.info("this.votes[index]['pollId']: ", this.votes[index]['pollId']);
+      if (this.votes[index]['pollId'] === Number(this.pollId)) {
+        switch (this.votes[index]['voteType']) {
+          case 'yes':
+            this.yesVoters++;
+            break;
+          case 'no':
+            this.noVoters++;
+            break;
+          case 'maybe':
+            this.maybeVoters++;
+            break;
+        }
+      }
+    }
+    // logger.info('yesvoters: ', this.yesVoters);
   }
+  modalBody!: string;
+  modalTitle!: string;
   pollDate!: number;
   pollDay!: string;
   pollMonth!: string;
@@ -121,19 +160,24 @@ export class PollComponent implements OnInit {
   @Input()
   pollName!: number;
   currentPollName!: string;
+  @Input()
+  votes!: [];
 
   async handleClick(this: any, currentEvent: any): Promise<void> {
-    console.log('the component that was clicked: ', this);
-    console.log('the poll that was clicked: ', this.pollId);
-    console.log('currentEvent: ', currentEvent);
-    console.log('currentEvent.target: ', currentEvent.target);
-    console.log('currentEvent.target.type: ', currentEvent.target.type);
-    console.log('currentEvent.target.value: ', currentEvent.target.value);
+    // logger.info('the component that was clicked: ', this);
+    // logger.info('the poll that was clicked: ', this.pollId);
+    // logger.info('currentEvent: ', currentEvent);
+    // logger.info('currentEvent.target: ', currentEvent.target);
+    // logger.info('currentEvent.target.type: ', currentEvent.target.type);
+    // logger.info('currentEvent.target.value: ', currentEvent.target.value);
     let isVoteCast = await this.pollService.castVote(
       this.pollId,
       currentEvent.target.value
     );
-    console.log('is vote cast: ', isVoteCast);
+    // logger.info('is vote cast: ', isVoteCast);
+    this.modalBody = '';
+    this.modalTitle = '';
+    this.callModal.callModal(this.modalBody, this.modalTitle);
   }
 
   getButtonStyle(): string {

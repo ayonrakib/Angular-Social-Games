@@ -6,6 +6,7 @@ app.use(express.json());
 const routerFile = require("./router");
 const userRoutes = require("./router/user");
 const imageRoutes = require("./router/image");
+const pollRoutes = require("./router/poll");
 const db = require("./mariadb");
 import winston from "winston";
 import expressWinston from "express-winston";
@@ -239,6 +240,8 @@ app.use("/", routerFile);
 app.use("/", userRoutes);
 
 app.use("/", imageRoutes);
+
+app.use("/", pollRoutes);
 
 app.listen(3000, () => {
   console.log(`Example app listening on port ${port}`);

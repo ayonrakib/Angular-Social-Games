@@ -6,6 +6,6 @@
     *ngFor="let poll of polls; let i = index"
     style="list-style-type: none; margin-bottom: 30px"
   >
-    <app-poll [poll]="poll" [pollName]="i"> </app-poll>
+    <app-poll [poll]="poll" [pollName]="i" [votes]="votes"> </app-poll>
   </li>
 </div>
