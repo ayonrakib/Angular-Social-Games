@@ -9,11 +9,20 @@
     padding: 40px;
   "
 >
-  <div class="row" style="font-size: x-large">
-    {{ pollDay }} {{ pollDate }} {{ pollMonth }}, {{ pollYear }} at
-    {{ pollTime }}
+  <div
+    style="display: flex; flex-direction: row; justify-content: space-between"
+  >
+    <div>
+      {{ pollDay }} {{ pollDate }} {{ pollMonth }}, {{ pollYear }} at
+      {{ pollTime }}
+    </div>
+    <div>
+      <button type="button" class="btn btn-primary" (click)="showVoters()">
+        Show voters
+      </button>
+    </div>
   </div>
-  <div class="row">
+  <div>
     {{ pollLocation }}
   </div>
   <br />
@@ -75,7 +84,7 @@
   </div>
   <br />
   <hr />
-  <div class="row">Location:</div>
+  <div>Location:</div>
   <div style="width: 100%; height: 200px; text-align: left">
     <a target="_blank" href="{{ pollMap }}"
       ><img

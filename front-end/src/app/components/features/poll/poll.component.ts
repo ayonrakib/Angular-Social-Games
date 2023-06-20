@@ -180,6 +180,15 @@ export class PollComponent implements OnInit {
     this.callModal.callModal(this.modalBody, this.modalTitle);
   }
 
+  showVoters(): void {
+    logger.info('came into show voters!');
+    logger.info('current poll id: ', this.pollId);
+    logger.info('current pollLocation: ', this.pollLocation);
+    this.modalBody = this.pollId.toString();
+    this.modalTitle = this.pollLocation;
+    this.callModal.callModal(this.modalBody, this.modalTitle);
+  }
+
   getButtonStyle(): string {
     return 'background: #f4f4f4; border: 1px solid #dcdcdc';
   }
