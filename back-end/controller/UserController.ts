@@ -40,7 +40,7 @@ class UserController {
           id: attribute,
         },
       });
-      console.log("user found with id: ", user[0].dataValues);
+      // console.log("user found with id: ", user[0].dataValues);
       const response = new Response(user[0].dataValues, null);
       return response;
     } else {
@@ -50,7 +50,7 @@ class UserController {
             email: attribute,
           },
         });
-        console.log("user with email in get user method try block: ", user);
+        // console.log("user with email in get user method try block: ", user);
         if (user !== null) {
           console.log("found user!");
           const userFoundResponseresponse = new Response(user, null);
@@ -84,7 +84,7 @@ class UserController {
 
   async login(email: string, password: string): Promise<Response> {
     const isUserFound = await this.getUser(email);
-    console.log("isuserfound in login of controller: ", isUserFound);
+    // console.log("isuserfound in login of controller: ", isUserFound);
     if (isUserFound.data === null) {
       const loginError = new ApiError(500, "User not found! Please try again!");
       const loginErrorResponse = new Response(null, loginError.getResponse());
@@ -163,7 +163,7 @@ class UserController {
   ): Promise<any> {
     console.log("came in register of user controller!");
     const isUserFound = await this.getUser(email);
-    console.log("isUserFound in register of user controller: ", isUserFound);
+    // console.log("isUserFound in register of user controller: ", isUserFound);
     if (isUserFound.data) {
       const userExistsError = new ApiError(600, "User already exists!");
       const userExistsResponse = new Response(

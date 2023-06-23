@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PollService } from '../../../services/poll.service';
 import { VoteService } from '../../../services/vote.service';
 import { ShowVotersComponent } from '../show-voters/show-voters.component';
-import CallModal from 'src/app/utils/CallModal';
 import logger from 'src/app/utils/Logger';
+import { ModalService } from 'src/app/services/modal.services';
 // import pino from 'pino';
 // // import path from 'path';
 // // const scriptName = path.basename(__filename);
@@ -33,7 +33,7 @@ export class PollComponent implements OnInit {
   constructor(
     private pollService: PollService,
     private voteService: VoteService,
-    private callModal: CallModal
+    private modalService: ModalService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -47,7 +47,8 @@ export class PollComponent implements OnInit {
     this.pollLocation = this.locations[this.poll.pollLocation];
     this.pollMap = this.maps[this.poll.pollLocation];
     this.pollImage = this.images[this.poll.pollLocation];
-    this.pollId = this.poll.id.toString();
+    this.pollId = 'poll' + this.poll.id.toString();
+    this.modalId = this.poll.id.toString();
     this.timeStamp = this.poll.pollTime.split(':');
     // logger.info('pollId: ', this.pollId);
     // logger.info('pollId: ', this.pollId);
@@ -74,7 +75,7 @@ export class PollComponent implements OnInit {
       // logger.info('current vote obj: ', this.votes[index]);
       // logger.info('current vote: ', this.votes[index]['voteType']);
       // logger.info("this.votes[index]['pollId']: ", this.votes[index]['pollId']);
-      if (this.votes[index]['pollId'] === Number(this.pollId)) {
+      if ('poll' + this.votes[index]['pollId'] === this.pollId) {
         switch (this.votes[index]['voteType']) {
           case 'yes':
             this.yesVoters++;
@@ -90,8 +91,14 @@ export class PollComponent implements OnInit {
     }
     // logger.info('yesvoters: ', this.yesVoters);
   }
+  @Input()
   modalBody!: string;
+  @Input()
   modalTitle!: string;
+  @Output() modalBodyFromPoll = new EventEmitter<string>();
+  @Output() modalTitleFromPoll = new EventEmitter<string>();
+  @Input()
+  modalId!: string;
   pollDate!: number;
   pollDay!: string;
   pollMonth!: string;
@@ -99,7 +106,7 @@ export class PollComponent implements OnInit {
   pollLocation!: string;
   pollMap!: string;
   pollImage!: string;
-  pollId!: number;
+  pollId!: string;
   hour!: string;
   minute!: string;
   second!: string;
@@ -174,19 +181,26 @@ export class PollComponent implements OnInit {
       this.pollId,
       currentEvent.target.value
     );
-    // logger.info('is vote cast: ', isVoteCast);
-    this.modalBody = '';
-    this.modalTitle = '';
-    this.callModal.callModal(this.modalBody, this.modalTitle);
+    logger.info('is vote cast: ', isVoteCast);
+    if (isVoteCast) {
+      this.modalBody = `You successfully voted ${currentEvent.target.value}!`;
+      this.modalTitle = 'Success!';
+    } else {
+      this.modalBody = `Your vote failed! Please try again!`;
+      this.modalTitle = 'Failed!';
+    }
   }
 
   showVoters(): void {
     logger.info('came into show voters!');
-    logger.info('current poll id: ', this.pollId);
-    logger.info('current pollLocation: ', this.pollLocation);
     this.modalBody = this.pollId.toString();
     this.modalTitle = this.pollLocation;
-    this.callModal.callModal(this.modalBody, this.modalTitle);
+
+    logger.info('current modalBody in pollcomponent: ', this.modalBody);
+    logger.info('current modalTitle in pollcomponent: ', this.modalTitle);
+    this.modalBodyFromPoll.emit(this.modalBody);
+    this.modalTitleFromPoll.emit(this.modalTitle);
+    this.modalService.callModal();
   }
 
   getButtonStyle(): string {

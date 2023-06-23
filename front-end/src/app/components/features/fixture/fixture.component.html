@@ -6,6 +6,16 @@
     *ngFor="let poll of polls; let i = index"
     style="list-style-type: none; margin-bottom: 30px"
   >
-    <app-poll [poll]="poll" [pollName]="i" [votes]="votes"> </app-poll>
+    <app-poll
+      [poll]="poll"
+      [pollName]="i"
+      [votes]="votes"
+      [modalBody]="modalBody"
+      [modalTitle]="modalTitle"
+      (modalBodyFromPoll)="getModalBodyFromChild($event)"
+      (modalTitleFromPoll)="getModalTitleFromChild($event)"
+    >
+    </app-poll>
   </li>
 </div>
+<app-modal [modalBody]="modalBody" [modalTitle]="modalTitle"></app-modal>

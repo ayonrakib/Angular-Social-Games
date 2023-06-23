@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../services/authentication.service';
-import CallModal from 'src/app/utils/CallModal';
 import validate from 'validate.js';
 
 @Component({
@@ -12,9 +11,9 @@ import validate from 'validate.js';
 export class AuthenticationComponent implements OnInit {
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService,
-    private callModal: CallModal
-  ) {}
+    private authenticationService: AuthenticationService
+  ) // private callModal: CallModal
+  {}
 
   ngOnInit(): void {
     const validateSession = this.authenticationService.validateSession();
@@ -41,15 +40,15 @@ export class AuthenticationComponent implements OnInit {
       if (this.email === '' && this.password == '') {
         this.modalBody = 'Please insert valid email and password!';
         this.modalTitle = 'Failed!';
-        this.callModal.callModal(this.modalBody, this.modalTitle);
+        // this.callModal.callModal(this.modalBody, this.modalTitle, '');
       } else if (this.password === '') {
         this.modalBody = 'Please insert valid password!';
         this.modalTitle = 'Failed!';
-        this.callModal.callModal(this.modalBody, this.modalTitle);
+        // this.callModal.callModal(this.modalBody, this.modalTitle, '');
       } else {
         this.modalBody = 'Please insert valid email!';
         this.modalTitle = 'Failed!';
-        this.callModal.callModal(this.modalBody, this.modalTitle);
+        // this.callModal.callModal(this.modalBody, this.modalTitle, '');
       }
     } else {
       const loginResponse = await this.authenticationService.login(
@@ -60,7 +59,7 @@ export class AuthenticationComponent implements OnInit {
         console.log('came inside authentication failure in login component!');
         this.modalBody = loginResponse.data.error.errorMessage;
         this.modalTitle = loginResponse.data.error.errorCode + ' error!';
-        this.callModal.callModal(this.modalBody, this.modalTitle);
+        // this.callModal.callModal(this.modalBody, this.modalTitle, '');
       } else {
         this.authenticationService.setSession(loginResponse.data.data);
         this.router.navigateByUrl('home');

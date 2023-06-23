@@ -17,6 +17,8 @@ export class FixtureComponent implements OnInit {
   polls: [] = [];
   votes: [] = [];
   currentPollVotes: [] = [];
+  modalBody!: string;
+  modalTitle!: string;
 
   async ngOnInit(): Promise<void> {
     this.votes = await this.voteService.getVotes();
@@ -28,13 +30,12 @@ export class FixtureComponent implements OnInit {
     });
   }
 
-  firstButtonId = Math.random().toString(36).substring(2, 7);
-  secondButtonId = Math.random().toString(36).substring(2, 7);
-  thirdButtonId = Math.random().toString(36).substring(2, 7);
-
-  getButtonId(): string {
-    return Math.random().toString(36).substring(2, 7);
+  getModalBodyFromChild(modalBodyFromChild: string): void {
+    console.log('modalBodyFromChild value: ', modalBodyFromChild);
+    this.modalBody = modalBodyFromChild;
   }
-
-  buttonId = this.getButtonId();
+  getModalTitleFromChild(modalTitleFromChild: string): void {
+    console.log('modalTitleFromChild value: ', modalTitleFromChild);
+    this.modalTitle = modalTitleFromChild;
+  }
 }

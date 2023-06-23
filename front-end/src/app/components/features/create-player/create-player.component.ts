@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ImageService } from '../../../services/image.service';
 import { UserService } from 'src/app/services/user.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import CallModal from 'src/app/utils/CallModal';
+// import CallModal from 'src/app/utils/CallModal';
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
 }
@@ -17,8 +17,7 @@ export class CreatePlayerComponent implements OnInit {
   constructor(
     private imageService: ImageService,
     private userService: UserService,
-    private authenticationService: AuthenticationService,
-    private callModal: CallModal
+    private authenticationService: AuthenticationService // private callModal: CallModal
   ) {}
 
   ngOnInit(): void {}
@@ -59,7 +58,7 @@ export class CreatePlayerComponent implements OnInit {
       console.log('calling modal in create player component in error input!');
       this.modalBody = isPlayerCreated.data.error.errorMessage;
       this.modalTitle = isPlayerCreated.data.error.errorCode + ' error!';
-      this.callModal.callModal(this.modalBody, this.modalTitle);
+      // this.callModal.callModal(this.modalBody, this.modalTitle, '');
     }
   }
 }

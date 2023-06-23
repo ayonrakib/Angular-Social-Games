@@ -207,7 +207,7 @@ const formatters = {
 
 const logger = pino({
   formatters: formatters,
-  msgPrefix: "this is a message prefix!",
+  msgPrefix: "this is a message prefix! ",
 });
 logger.info("server started with pino pretty!");
 
@@ -218,22 +218,22 @@ app.use(
   })
 );
 
-app.use(
-  expressWinston.logger({
-    transports: [new winston.transports.Console()],
-    format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.json()
-    ),
-    meta: false,
-    msg: "HTTP  ",
-    expressFormat: true,
-    colorize: false,
-    ignoreRoute: function (req, res) {
-      return false;
-    },
-  })
-);
+// app.use(
+//   expressWinston.logger({
+//     transports: [new winston.transports.Console()],
+//     format: winston.format.combine(
+//       winston.format.colorize(),
+//       winston.format.json()
+//     ),
+//     meta: false,
+//     msg: "HTTP  ",
+//     expressFormat: true,
+//     colorize: false,
+//     ignoreRoute: function (req, res) {
+//       return false;
+//     },
+//   })
+// );
 
 app.use("/", routerFile);
 
@@ -244,20 +244,5 @@ app.use("/", imageRoutes);
 app.use("/", pollRoutes);
 
 app.listen(3000, () => {
-  console.log(`Example app listening on port ${port}`);
+  logger.info(`Example app listening on port ${port}`);
 });
-function colorGreen(hostname: any) {
-  throw new Error("Function not implemented.");
-}
-
-function colorRed(pid: any) {
-  throw new Error("Function not implemented.");
-}
-
-function colorBlue(name: any) {
-  throw new Error("Function not implemented.");
-}
-
-function colorCyan(caller: any) {
-  throw new Error("Function not implemented.");
-}

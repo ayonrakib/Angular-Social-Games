@@ -8,7 +8,10 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ModalComponent implements OnInit {
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log('modalBody: ', this.modalBody);
+    console.log('modalTitle: ', this.modalTitle);
+  }
 
   @Input()
   modalBody!: string;

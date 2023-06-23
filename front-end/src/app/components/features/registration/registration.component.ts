@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../services/authentication.service';
-import CallModal from '../../../utils/CallModal';
+// import CallModal from '../../../utils/CallModal';
 import axios from 'axios';
 
 @Component({
@@ -12,8 +12,7 @@ import axios from 'axios';
 export class RegistrationComponent implements OnInit {
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService,
-    private callModal: CallModal
+    private authenticationService: AuthenticationService // private callModal: CallModal
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +40,7 @@ export class RegistrationComponent implements OnInit {
       {
         this.modalBody = 'Please insert valid inputs!';
         this.modalTitle = 'Failed!';
-        this.callModal.callModal(this.modalBody, this.modalTitle);
+        // this.callModal.callModal(this.modalBody, this.modalTitle, '');
       }
     } else {
       const createdUserResponse = await axios.post(
@@ -57,7 +56,7 @@ export class RegistrationComponent implements OnInit {
       if (createdUserResponse.data.data === null) {
         this.modalBody = 'Account exists! Please use another email!';
         this.modalTitle = 'Error!';
-        this.callModal.callModal(this.modalBody, this.modalTitle);
+        // this.callModal.callModal(this.modalBody, this.modalTitle, '');
       } else {
         if (this.authenticationService.setSession(createdUserResponse.data)) {
           this.router.navigateByUrl('home');
