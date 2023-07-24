@@ -9,22 +9,29 @@
       id="navbarNavDropdown"
     >
       <div class="dropdown" style="margin-right: 20px">
-        <button
-          class="btn btn-secondary dropdown-toggle"
-          type="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          Admin
-        </button>
-        <ul class="dropdown-menu dropdown-menu-dark">
-          <li>
-            <a class="dropdown-item" (click)="createPoll()">Create Poll</a>
-          </li>
-          <li>
-            <a class="dropdown-item" (click)="createPlayer()">Create Player</a>
-          </li>
-        </ul>
+        <div *ngIf="isAdmin; else notAdmin">
+          <button
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Admin
+          </button>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li>
+              <a class="dropdown-item" (click)="createPoll()">Create Poll</a>
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="createPlayer()"
+                >Create Player</a
+              >
+            </li>
+          </ul>
+        </div>
+        <ng-template #notAdmin>
+          <div></div>
+        </ng-template>
       </div>
       <div class="dropdown">
         <button

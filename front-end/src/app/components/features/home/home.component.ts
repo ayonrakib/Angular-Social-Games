@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../services/authentication.service';
-// import { DateController } from 'src/app/controller/DateController';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -11,14 +11,14 @@ import { AuthenticationService } from '../../../services/authentication.service'
 export class HomeComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   async ngOnInit(): Promise<void> {
-    const validateSession = await this.authenticationService.validateSession();
-    if (validateSession.data === null) {
-      this.authenticationService.deleteSession();
-      this.router.navigateByUrl('/');
-    }
+    // const isLoggedIn = await this.userService.isLoggedIn();
+    // isLoggedIn === true
+    //   ? this.router.navigateByUrl('home')
+    //   : this.router.navigateByUrl('');
   }
 }

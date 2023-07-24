@@ -9,9 +9,9 @@
     <app-poll
       [poll]="poll"
       [pollName]="i"
-      [votes]="votes"
       [modalBody]="modalBody"
       [modalTitle]="modalTitle"
+      [currentPollVotes]="getCurrentVotes(poll)"
       (modalBodyFromPoll)="getModalBodyFromChild($event)"
       (modalTitleFromPoll)="getModalTitleFromChild($event)"
     >

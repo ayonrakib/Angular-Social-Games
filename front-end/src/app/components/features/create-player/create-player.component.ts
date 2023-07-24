@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ImageService } from '../../../services/image.service';
 import { UserService } from 'src/app/services/user.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { ModalService } from 'src/app/services/modal.services';
+import { Router } from '@angular/router';
 // import CallModal from 'src/app/utils/CallModal';
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
@@ -17,10 +19,14 @@ export class CreatePlayerComponent implements OnInit {
   constructor(
     private imageService: ImageService,
     private userService: UserService,
-    private authenticationService: AuthenticationService // private callModal: CallModal
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private modalService: ModalService // private callModal: CallModal
   ) {}
 
-  ngOnInit(): void {}
+  async ngOnInit(): Promise<void> {
+    await this.userService.authorizeIfAdmin();
+  }
   firstName: string = '';
   lastName: string = '';
   email: string = '';
@@ -35,7 +41,6 @@ export class CreatePlayerComponent implements OnInit {
       this.lastName,
       this.email
     );
-    const session = this.authenticationService.getSession();
     const isPlayerCreated = await this.userService.create(
       this.firstName,
       this.lastName,
@@ -50,15 +55,14 @@ export class CreatePlayerComponent implements OnInit {
       'isplayer created response.data in create player component: ',
       isPlayerCreated.data
     );
-    console.log(
-      'isplayer created response.data.data in create player component: ',
-      isPlayerCreated.data.data
-    );
-    if (isPlayerCreated.data.data === null) {
+    if (isPlayerCreated.data === null) {
       console.log('calling modal in create player component in error input!');
-      this.modalBody = isPlayerCreated.data.error.errorMessage;
-      this.modalTitle = isPlayerCreated.data.error.errorCode + ' error!';
-      // this.callModal.callModal(this.modalBody, this.modalTitle, '');
+      this.modalBody = isPlayerCreated.error.errorMessage;
+      this.modalTitle = 'error!';
+    } else {
+      this.modalBody = 'Successfully created the player!';
+      this.modalTitle = 'Success!';
     }
+    this.modalService.callModal();
   }
 }

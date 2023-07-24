@@ -5,6 +5,7 @@ import Response from "../utils/rest";
 import crypto from "crypto-js";
 import bcrypt from "bcrypt";
 import verifyInput from "../utils/VerifyInput";
+import { VoteType } from "../enum";
 
 class UserController {
   constructor() {}
@@ -17,6 +18,14 @@ class UserController {
   async getUserWithSession(
     session: string
   ): Promise<Response | typeof UserModel> {
+    if (session === "") {
+      const emptySessionError = new ApiError(450, "Session was empty!");
+      const emptySessionResponse = new Response(
+        null,
+        emptySessionError.getResponse()
+      );
+      return emptySessionResponse;
+    }
     const isUserFound = await UserModel.findOne({
       where: { session: session },
     });
@@ -118,7 +127,7 @@ class UserController {
     console.log("came to create user!");
     try {
       const salt = bcrypt.genSaltSync(10);
-      const session = this.getRandomizedString();
+      // const session = this.getRandomizedString();
       const hashedPassword = bcrypt.hashSync(password, salt);
       const user = await UserModel.create({
         firstName: firstName,
@@ -126,7 +135,7 @@ class UserController {
         email: email,
         password: hashedPassword,
         salt: salt,
-        session: session,
+        session: "",
       });
       if (user instanceof UserModel) {
         const userCreatedResponse = new Response(user, null);
@@ -242,8 +251,17 @@ class UserController {
   async isAdmin(session: string): Promise<Response> {
     const currentUser = await this.getUserWithSession(session);
     console.log("current user in is admin method: ", currentUser);
+    console.log("current user.data in is admin method: ", currentUser.data);
+    // console.log(
+    //   "current user.data.dataValues in is admin method: ",
+    //   currentUser.data.dataValues
+    // );
+    // console.log(
+    //   "current user.data.dataValues.role in is admin method: ",
+    //   currentUser.data.dataValues.role
+    // );
     if (currentUser.data === null) {
-      const userIsNotAdminError = new ApiError(150, "User is not an admin!");
+      const userIsNotAdminError = new ApiError(150, "Wrong session!");
       const userIsNotAdminResponse = new Response(
         null,
         userIsNotAdminError.getResponse()
@@ -252,8 +270,13 @@ class UserController {
     }
     // await currentUser.update({ role: "admin" });
     // await currentUser.save();
-    const userIsAdminResponse = new Response(true, null);
-    return userIsAdminResponse;
+    if (currentUser.data.dataValues.role === "admin") {
+      const isAdminResponse = new Response(true, null);
+      return isAdminResponse;
+    } else {
+      const isNotAdminResponse = new Response(false, null);
+      return isNotAdminResponse;
+    }
   }
 
   verifyRegistrationInputsFromAdmin(req: any): Response {
@@ -285,12 +308,57 @@ class UserController {
     return new Response(true, null);
   }
 
+  async createPlayer(
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string
+  ): Promise<Response> {
+    const userCreatedResponse = await this.register(
+      firstName,
+      lastName,
+      email,
+      password
+    );
+    return userCreatedResponse;
+  }
+
   hashPassword(password: string, salt: string): string {
     return crypto.AES.encrypt(password, salt).toString();
   }
 
   getRandomizedString(): string {
     return Math.random().toString(36).substring(2, 10);
+  }
+
+  async getUsersWithVoteRecords(voteRecords: any): Promise<any> {
+    const voteTypes: any = {
+      yesVoters: [],
+      noVoters: [],
+      maybeVoters: [],
+    };
+    for (let index = 0; index < voteRecords.length; index++) {
+      const user = await this.getUser(voteRecords[index]["userId"]);
+      // enum use korte hobe, intermediate value use kora jabe na
+      // intermediate value thakle enum define korte hobe
+      // votetype naam e enum define kore use korte hobe
+      // enum er value er sathe compare korbo
+      enum voteType {
+        yesType = "yes",
+        noType = "no",
+        maybeType = "maybe",
+      }
+
+      if (voteRecords[index]["voteType"] === voteType.yesType) {
+        voteTypes["yesVoters"].push(user.data);
+      } else if (voteRecords[index]["voteType"] === voteType.noType) {
+        voteTypes["noVoters"].push(user.data);
+      } else {
+        voteTypes["maybeVoters"].push(user.data);
+      }
+    }
+    const response = new Response(voteTypes, null);
+    return response;
   }
 }
 

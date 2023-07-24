@@ -58,6 +58,18 @@ class VoteTableController {
     const response = new Response(votes, null);
     return response;
   }
+
+  async getVoters(pollId: number): Promise<{}> {
+    console.log("came in get votes vote table controller!");
+    const votes = await Vote_Table.findAll({
+      where: {
+        pollId: pollId,
+      },
+    });
+    const voters = await userController.getUsersWithVoteRecords(votes);
+    console.log("voters in getVoters method in votetablecontroller: ", voters);
+    return voters;
+  }
 }
 
 export default new VoteTableController();

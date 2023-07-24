@@ -16,15 +16,14 @@ export class NavbarComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  async ngOnInit(): Promise<void> {
+    const isUserAdmin = await this.userService.amIAdmin();
+    isUserAdmin ? (this.isAdmin = true) : (this.isAdmin = false);
+  }
   isAdmin!: boolean;
 
-  amIAdmin(): boolean {
-    // const amIAdmin = this.userService.create
-    return true;
-  }
   goToHome(): void {
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl('home');
   }
 
   showAnnouncements(): void {

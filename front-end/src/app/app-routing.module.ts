@@ -9,17 +9,37 @@ import { FixtureComponent } from './components/features/fixture/fixture.componen
 import { CreatePollComponent } from './components/features/create-poll/create-poll.component';
 import { CreatePlayerComponent } from './components/features/create-player/create-player.component';
 import { ProfileComponent } from './components/features/profile/profile.component';
+import { AuthGuard } from './auth.guard';
+import { AdminGuard } from './admin.guard';
 
 const routes: Routes = [
-  { path: '', component: AuthenticationComponent },
+  { path: '', pathMatch: 'full', component: AuthenticationComponent },
   { path: 'register', component: RegistrationComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'announcements', component: AnnouncementsComponent },
-  { path: 'rules', component: RulesComponent },
-  { path: 'fixture', component: FixtureComponent },
-  { path: 'create-poll', component: CreatePollComponent },
-  { path: 'create-player', component: CreatePlayerComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  {
+    path: 'announcements',
+    component: AnnouncementsComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: 'rules', component: RulesComponent, canActivate: [AuthGuard] },
+  { path: 'fixture', component: FixtureComponent, canActivate: [AuthGuard] },
+  {
+    path: 'create-poll',
+    component: CreatePollComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+  {
+    path: 'create-player',
+    component: CreatePlayerComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  // {
+  //   path: '**',
+  //   component: HomeComponent,
+  // },
+  { path: '404', component: AuthenticationComponent },
+  { path: '**', redirectTo: '/404' },
 ];
 
 @NgModule({

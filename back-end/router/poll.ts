@@ -56,4 +56,12 @@ router.get("/vote/get-votes", async (req: any, res: any) => {
   res.send(response);
 });
 
+router.post("/vote/get-voters", async (req: any, res: any) => {
+  console.log("came in get voters url!");
+  console.log("req.body: ", req.body);
+  const pollId = req.body.pollId;
+  const voters = await voteTableController.getVoters(pollId);
+  res.send(voters);
+});
+
 module.exports = router;

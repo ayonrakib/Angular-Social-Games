@@ -23,7 +23,7 @@ export class AuthenticationService {
   }
 
   setSession(session: string): boolean {
-    this.cookieService.set('session', session);
+    this.cookieService.set('session', session, 10);
     return this.getSession() === '' ? false : true;
   }
 
@@ -41,6 +41,11 @@ export class AuthenticationService {
       'validate sesison in authentication service: ',
       validateSession.data
     );
+    if (validateSession.data.data === null) {
+      if (validateSession.data.error.errorCode === 530) {
+        this.deleteSession();
+      }
+    }
     return validateSession.data;
   }
 }

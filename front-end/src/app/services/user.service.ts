@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationService } from './authentication.service';
 import axios from 'axios';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private authenticationService: AuthenticationService) {}
+  constructor(
+    private authenticationService: AuthenticationService,
+    private router: Router
+  ) {}
 
   async create(
     firstName: string,
@@ -25,15 +29,30 @@ export class UserService {
       formData
     );
     console.log('isplayer created response: ', isPlayerCreated);
-    return isPlayerCreated;
+    return isPlayerCreated.data;
   }
 
   async amIAdmin(): Promise<boolean> {
     const session = this.authenticationService.getSession();
-    const user = await axios.post('http://localhost:3000/user/is-admin', {
-      session: session,
-    });
-    return true;
+    const isAdminResponse = await axios.post(
+      'http://localhost:3000/user/is-admin',
+      {
+        session: session,
+      }
+    );
+    return isAdminResponse.data.data;
+  }
+
+  async authorizeIfAdmin(): Promise<void> {
+    const isAdmin = await this.amIAdmin();
+    if (!isAdmin) {
+      this.router.navigateByUrl('');
+    }
+  }
+
+  async isLoggedIn(): Promise<boolean> {
+    const sessionValidated = await this.authenticationService.validateSession();
+    return sessionValidated.data === null ? false : true;
   }
 
   async getProfileData(): Promise<any> {

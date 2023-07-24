@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../services/authentication.service';
 import validate from 'validate.js';
+import { ModalService } from 'src/app/services/modal.services';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-authentication',
@@ -11,22 +13,16 @@ import validate from 'validate.js';
 export class AuthenticationComponent implements OnInit {
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService
-  ) // private callModal: CallModal
-  {}
+    private authenticationService: AuthenticationService,
+    private modalService: ModalService,
+    private userService: UserService
+  ) {}
 
-  ngOnInit(): void {
-    const validateSession = this.authenticationService.validateSession();
-    console.log('validate session in ngonit of login: ', validateSession);
-    validateSession.then((response) => {
-      console.log(
-        'response in resolved validate session in ngonint of login: ',
-        response
-      );
-      if (response.data !== null) {
-        this.router.navigateByUrl('home');
-      }
-    });
+  async ngOnInit(): Promise<void> {
+    console.log('came on oninit of auth component');
+    (await this.userService.isLoggedIn()) === true
+      ? this.router.navigateByUrl('home')
+      : this.router.navigateByUrl('');
   }
 
   email: string = '';
@@ -40,16 +36,14 @@ export class AuthenticationComponent implements OnInit {
       if (this.email === '' && this.password == '') {
         this.modalBody = 'Please insert valid email and password!';
         this.modalTitle = 'Failed!';
-        // this.callModal.callModal(this.modalBody, this.modalTitle, '');
       } else if (this.password === '') {
         this.modalBody = 'Please insert valid password!';
         this.modalTitle = 'Failed!';
-        // this.callModal.callModal(this.modalBody, this.modalTitle, '');
       } else {
         this.modalBody = 'Please insert valid email!';
         this.modalTitle = 'Failed!';
-        // this.callModal.callModal(this.modalBody, this.modalTitle, '');
       }
+      this.modalService.callModal();
     } else {
       const loginResponse = await this.authenticationService.login(
         this.email,
@@ -59,7 +53,7 @@ export class AuthenticationComponent implements OnInit {
         console.log('came inside authentication failure in login component!');
         this.modalBody = loginResponse.data.error.errorMessage;
         this.modalTitle = loginResponse.data.error.errorCode + ' error!';
-        // this.callModal.callModal(this.modalBody, this.modalTitle, '');
+        this.modalService.callModal();
       } else {
         this.authenticationService.setSession(loginResponse.data.data);
         this.router.navigateByUrl('home');

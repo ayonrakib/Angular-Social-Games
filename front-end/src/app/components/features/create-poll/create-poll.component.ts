@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { PollService } from '../../../services/poll.service';
 import { ModalComponent } from '../../commons/modal/modal.component';
 import { CookieService } from 'ngx-cookie-service';
+import { UserService } from 'src/app/services/user.service';
 import axios from 'axios';
 
 @Component({
@@ -14,10 +15,13 @@ export class CreatePollComponent implements OnInit {
   constructor(
     private router: Router,
     private pollService: PollService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private userService: UserService
   ) {}
 
-  ngOnInit(): void {}
+  async ngOnInit(): Promise<void> {
+    // await this.userService.authorizeIfAdmin();
+  }
 
   pollDetails = [];
 

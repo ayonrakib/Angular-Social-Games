@@ -49,34 +49,28 @@ function renameProfilePicture(fileName: any) {
   );
   return true;
 }
-
+// use the same api as register as nothing to guard
+// create poll api guard korte hobe
+// check if api is accessible (admin).
+// express authorization middleware diye validate korte hobe
+// nije banano better
 router.post(
   "/user/create-user",
   upload.single("profilePicture"),
   async (req: any, res: any, next: any) => {
     console.log("came to create-player url!");
     console.log("req.body: ", req.body);
-    const verifiedInputs =
-      userController.verifyRegistrationInputsFromAdmin(req);
-    console.log("verifiedInputs: ", verifiedInputs);
-    if (verifiedInputs.data === null) {
-      const inputError = new ApiError(260, "Input is wrong!");
-      const inputErrorResponse = new Response(null, inputError.getResponse());
-      res.send(inputErrorResponse);
-    } else {
-      // console.log("first name type: ", isFirstNameString);
-      let firstName = req.body.firstName;
-      let lastName = req.body.lastName;
-      let email = req.body.email;
-      let password = req.body.password;
-      const user = await userController.register(
-        firstName,
-        lastName,
-        email,
-        password
-      );
-      res.send(user);
-    }
+    let firstName = req.body.firstName;
+    let lastName = req.body.lastName;
+    let email = req.body.email;
+    let password = req.body.password;
+    const userCreated = await userController.createPlayer(
+      firstName,
+      lastName,
+      email,
+      password
+    );
+    res.send(userCreated);
   }
 );
 router.post("/user/login", async (req: any, res: any) => {
@@ -88,20 +82,6 @@ router.post("/user/login", async (req: any, res: any) => {
   res.send(loginRepsonse);
 });
 
-router.post("/register", async (req: any, res: any) => {
-  let firstName = req.body.firstName;
-  let lastName = req.body.lastName;
-  let email = req.body.email;
-  let password = req.body.password;
-  const isUserRegistered = await userController.register(
-    firstName,
-    lastName,
-    email,
-    password
-  );
-  res.send(isUserRegistered);
-});
-
 router.post("/validate", async (req: any, res: any, next: any) => {
   console.log("came to validate session!");
   const session = req.body.session;
@@ -109,26 +89,7 @@ router.post("/validate", async (req: any, res: any, next: any) => {
   const isUserFoundWithSession = await userController.getUserWithSession(
     session
   );
-  console.log("user with session in validate url: ", isUserFoundWithSession);
-  if (isUserFoundWithSession.data === null) {
-    const userNotFoundError = new ApiError(300, "User not found!");
-    const userNotFoundResponse = new Response(
-      null,
-      userNotFoundError.getResponse()
-    );
-    res.send(userNotFoundResponse);
-    next();
-  } else {
-    console.log(
-      "user.data with session in validate url: ",
-      isUserFoundWithSession.data
-    );
-    console.log(
-      "user.data.dataValues with session in validate url: ",
-      isUserFoundWithSession.data.dataValues
-    );
-    res.send(isUserFoundWithSession);
-  }
+  res.send(isUserFoundWithSession);
 });
 
 router.post("/get-user", async (req: any, res: any) => {

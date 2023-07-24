@@ -39,6 +39,7 @@ export class PollComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     // logger.info('poll in PollComponent is: ', this.poll);
     // logger.info('poll in PollComponent is: ', this.poll);
+    // logger.info('currentPollVotes: ', this.currentPollVotes);
     let date = new Date(this.poll.pollDate);
     // logger.info('date in poll component: ', date);
     this.pollDate = date.getDate();
@@ -66,30 +67,9 @@ export class PollComponent implements OnInit {
     this.secondButtonId = this.pollId + '-' + 'no';
     this.thirdButtonId = this.pollId + '-' + 'maybe';
     this.currentPollName = this.pollName.toString();
-    // logger.info('votes in poll component: ', this.votes);
-    this.yesVoters = 0;
-    this.noVoters = 0;
-    this.maybeVoters = 0;
-    // logger.info('this.pollid: ', typeof this.pollId);
-    for (let index = 0; index < this.votes.length; index++) {
-      // logger.info('current vote obj: ', this.votes[index]);
-      // logger.info('current vote: ', this.votes[index]['voteType']);
-      // logger.info("this.votes[index]['pollId']: ", this.votes[index]['pollId']);
-      if ('poll' + this.votes[index]['pollId'] === this.pollId) {
-        switch (this.votes[index]['voteType']) {
-          case 'yes':
-            this.yesVoters++;
-            break;
-          case 'no':
-            this.noVoters++;
-            break;
-          case 'maybe':
-            this.maybeVoters++;
-            break;
-        }
-      }
-    }
-    // logger.info('yesvoters: ', this.yesVoters);
+    this.yesVoters = this.currentPollVotes['yesVoters'];
+    this.noVoters = this.currentPollVotes['noVoters'];
+    this.maybeVoters = this.currentPollVotes['maybeVoters'];
   }
   @Input()
   modalBody!: string;
@@ -97,6 +77,7 @@ export class PollComponent implements OnInit {
   modalTitle!: string;
   @Output() modalBodyFromPoll = new EventEmitter<string>();
   @Output() modalTitleFromPoll = new EventEmitter<string>();
+  @Output() modalUsersFromPoll = new EventEmitter<object[]>();
   @Input()
   modalId!: string;
   pollDate!: number;
@@ -168,7 +149,7 @@ export class PollComponent implements OnInit {
   pollName!: number;
   currentPollName!: string;
   @Input()
-  votes!: [];
+  currentPollVotes: any;
 
   async handleClick(this: any, currentEvent: any): Promise<void> {
     // logger.info('the component that was clicked: ', this);
@@ -189,17 +170,67 @@ export class PollComponent implements OnInit {
       this.modalBody = `Your vote failed! Please try again!`;
       this.modalTitle = 'Failed!';
     }
+    this.modalService.callModal();
   }
 
-  showVoters(): void {
-    logger.info('came into show voters!');
-    this.modalBody = this.pollId.toString();
-    this.modalTitle = this.pollLocation;
+  async showVoters(): Promise<void> {
+    logger.info('came into show voters of poll component!');
 
-    logger.info('current modalBody in pollcomponent: ', this.modalBody);
-    logger.info('current modalTitle in pollcomponent: ', this.modalTitle);
-    this.modalBodyFromPoll.emit(this.modalBody);
-    this.modalTitleFromPoll.emit(this.modalTitle);
+    // logger.info('current modalBody in pollcomponent: ', this.modalBody);
+    // logger.info('current modalTitle in pollcomponent: ', this.modalTitle);
+    let id: number = parseInt(this.pollId.slice(4));
+    const voters = await this.voteService.getVotersForCurrentPoll(id);
+    console.log('voters in showvoters method in poll component: ', voters);
+    console.log(
+      'voters.data in showvoters method in poll component: ',
+      voters.data
+    );
+    let allVoters = '';
+    if (voters.data.yesVoters.length != 0) {
+      for (
+        let index: number = 0;
+        index < voters.data.yesVoters.length;
+        index++
+      ) {
+        this.yesVoterUsers =
+          voters.data.yesVoters[index]['firstName'] +
+          ' ' +
+          voters.data.yesVoters[index]['lastName'];
+      }
+      allVoters += 'yesvoters: ' + this.yesVoterUsers;
+    }
+    if (voters.data.noVoters.length != 0) {
+      for (
+        let index: number = 0;
+        index < voters.data.noVoters.length;
+        index++
+      ) {
+        this.noVoterUsers =
+          voters.data.noVoters[index]['firstName'] +
+          ' ' +
+          voters.data.noVoters[index]['lastName'];
+      }
+      allVoters += 'novoters: ' + this.noVoterUsers;
+    }
+    if (voters.data.maybeVoters.length != 0) {
+      for (
+        let index: number = 0;
+        index < voters.data.maybeVoters.length;
+        index++
+      ) {
+        this.maybeVoterUsers =
+          voters.data.maybeVoters[index]['firstName'] +
+          ' ' +
+          voters.data.maybeVoters[index]['lastName'];
+      }
+      allVoters += 'maybevoters: ' + this.maybeVoterUsers;
+    }
+    console.log('yesvoterusers: ', this.yesVoterUsers);
+    console.log('novoterusers: ', this.noVoterUsers);
+    console.log('maybevoterusers: ', this.maybeVoterUsers);
+    this.modalBodyFromPoll.emit(allVoters);
+    this.modalTitleFromPoll.emit(this.pollLocation);
+    this.modalUsersFromPoll.emit(voters.data);
     this.modalService.callModal();
   }
 
@@ -210,4 +241,7 @@ export class PollComponent implements OnInit {
   yesVoters!: number;
   noVoters!: number;
   maybeVoters!: number;
+  yesVoterUsers!: any;
+  noVoterUsers!: any;
+  maybeVoterUsers!: any;
 }

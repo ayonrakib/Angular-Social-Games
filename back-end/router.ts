@@ -84,19 +84,19 @@ router.get("/read-file", async (req: any, res: any) => {
 //   res.send(loginRepsonse);
 // });
 
-router.post("/register", async (req: any, res: any) => {
-  let firstName = req.body.firstName;
-  let lastName = req.body.lastName;
-  let email = req.body.email;
-  let password = req.body.password;
-  const isUserRegistered = await userController.register(
-    firstName,
-    lastName,
-    email,
-    password
-  );
-  res.send(isUserRegistered);
-});
+// router.post("/register", async (req: any, res: any) => {
+//   let firstName = req.body.firstName;
+//   let lastName = req.body.lastName;
+//   let email = req.body.email;
+//   let password = req.body.password;
+//   const isUserRegistered = await userController.register(
+//     firstName,
+//     lastName,
+//     email,
+//     password
+//   );
+//   res.send(isUserRegistered);
+// });
 
 router.post("/get-user", async (req: any, res: any) => {
   console.log("reached /get-user url!");

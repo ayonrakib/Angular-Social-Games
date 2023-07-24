@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import CallModal from 'src/app/utils/CallModal';
+import { ModalService } from 'src/app/services/modal.services';
 
 @Component({
   selector: 'app-profile',
@@ -11,8 +11,8 @@ import CallModal from 'src/app/utils/CallModal';
 export class ProfileComponent implements OnInit {
   constructor(
     private userService: UserService,
-    private callModal: CallModal,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private modalService: ModalService
   ) {}
 
   profileData: any = null;
@@ -50,11 +50,10 @@ export class ProfileComponent implements OnInit {
     if (assignProfilePicture.data.data) {
       this.modalBody = 'Image uploaded successfully!';
       this.modalTitle = 'Success!';
-      this.callModal.callModal(this.modalBody, this.modalTitle);
     } else {
       this.modalBody = assignProfilePicture.data.error.errorMessage;
       this.modalTitle = assignProfilePicture.data.error.errorCode + ' error!';
-      this.callModal.callModal(this.modalBody, this.modalTitle);
     }
+    this.modalService.callModal();
   }
 }

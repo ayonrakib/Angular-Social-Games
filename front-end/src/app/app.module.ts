@@ -24,6 +24,7 @@ import { ModalComponent } from './components/commons/modal/modal.component';
 import { CreatePlayerComponent } from './components/features/create-player/create-player.component';
 import { ProfileComponent } from './components/features/profile/profile.component';
 import { ShowVotersComponent } from './components/features/show-voters/show-voters.component';
+import { ShowUsersComponent } from './components/features/show-users/show-users.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { ShowVotersComponent } from './components/features/show-voters/show-vote
     CreatePlayerComponent,
     ProfileComponent,
     ShowVotersComponent,
+    ShowUsersComponent,
   ],
   imports: [
     BrowserModule,

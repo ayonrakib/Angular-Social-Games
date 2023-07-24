@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../services/authentication.service';
-// import CallModal from '../../../utils/CallModal';
+import { UserService } from 'src/app/services/user.service';
+import { ModalService } from 'src/app/services/modal.services';
 import axios from 'axios';
 
 @Component({
@@ -12,7 +13,9 @@ import axios from 'axios';
 export class RegistrationComponent implements OnInit {
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService // private callModal: CallModal
+    private authenticationService: AuthenticationService,
+    private modalService: ModalService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -40,27 +43,32 @@ export class RegistrationComponent implements OnInit {
       {
         this.modalBody = 'Please insert valid inputs!';
         this.modalTitle = 'Failed!';
-        // this.callModal.callModal(this.modalBody, this.modalTitle, '');
+        this.modalService.callModal();
       }
     } else {
-      const createdUserResponse = await axios.post(
-        'http://localhost:3000/register',
-        {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          email: this.email,
-          password: this.password,
-        }
+      const createdUserResponse = await this.userService.create(
+        this.firstName,
+        this.lastName,
+        this.email,
+        this.password
       );
       console.log('createdUserResponse in register: ', createdUserResponse);
-      if (createdUserResponse.data.data === null) {
+      console.log(
+        'createdUserResponse.data in register: ',
+        createdUserResponse.data
+      );
+      if (createdUserResponse.data === null) {
         this.modalBody = 'Account exists! Please use another email!';
         this.modalTitle = 'Error!';
-        // this.callModal.callModal(this.modalBody, this.modalTitle, '');
+        this.modalService.callModal();
       } else {
-        if (this.authenticationService.setSession(createdUserResponse.data)) {
-          this.router.navigateByUrl('home');
-        }
+        this.modalBody = 'Success!';
+        this.modalTitle =
+          'Successfully registered! Going back to Login screen!';
+        this.modalService.callModal();
+        setTimeout(() => {
+          this.router.navigateByUrl('/');
+        }, 2000);
       }
     }
   }
